@@ -3,10 +3,6 @@
 <x:page title="{title}" xmlns:x="http://lib.unjou.org/Schemas/Style"
                          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<x:breadcrumbs>
-    / <a href="/categories/*{categoryId}/{categoryLabel}">{categoryLabel}</a> / {title}
-</x:breadcrumbs>
-
 <x:script>
 $(document).bind("ready", function() {
     $(".delete").bind("click", function(e) {
@@ -32,6 +28,14 @@ $(document).bind("ready", function() {
 });
 </x:script>
 
+<x:breadcrumbs>
+{.with article}
+    / <a href="/categories/*{categoryTerm}/{categoryLabel}">{categoryLabel}</a> / {title}
+{.end}
+</x:breadcrumbs>
+
+{.with article}
+
 <section class="main hfeed">
 
 <xi:include href="article.inc.html" />
@@ -48,6 +52,8 @@ $(document).bind("ready", function() {
 <xi:include href="comments/form.inc.html" />
 
 </section>
+
+{.end}
 
 <xi:include href="aside.inc.html" />
 

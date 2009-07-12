@@ -59,8 +59,8 @@ article footer {
 }
 
 aside {
-    border-left: 1px solid ${gray};
-    float: left;
+    border-left: 1px solid {gray};
+    float: right;
     margin-left: -322px;
     padding-left: 20px;
     width: 300px;
@@ -121,7 +121,7 @@ section.comments {
 }
 
 article.comment {
-    border-top: 1px solid ${gray};
+    border-top: 1px solid {gray};
     clear: both;
     margin-bottom: 1em;
     padding-top: 1em;
@@ -142,7 +142,7 @@ article.comment img.avatar {
 
 .pager {
     clear: both;
-    background: ${gray};
+    background: {gray};
     font-weight: bold;
     margin-top: 3em;
     padding: 1em;
@@ -166,12 +166,12 @@ article.comment img.avatar {
 }
 
 .tagcloud {
-    background: ${gray};
+    background: {gray};
     padding: 2em;
 }
 
 .error-dialog {
-    border: 1px solid ${gray};
+    border: 1px solid {gray};
     margin: auto;
     margin-top: 5em;
     padding: 2em;

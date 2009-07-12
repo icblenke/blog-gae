@@ -29,7 +29,7 @@ db.model(Article, "Article", {
 });
 
 Article.prototype.path = function() {
-    return "*" + this.__key__.getId() + "/" + seo(this.title);
+    return "*" + db.keyToString(this.key()) + "/" + seo(this.title);
 }
 
 Article.prototype.toString = function() {
