@@ -1,29 +1,36 @@
-var Hash = require("hash").Hash;
+var db = require("google/appengine/ext/db");
 
-var Template = require("nitro/utils/template").Template;
+var Template = require("template").Template;
 
-var Comment = require("app/content/comment").Comment,
-    markup = require("app/content/markup").markup;
+var Article = require("../content/article").Article,
+	Comment = require("../content/comment").Comment,
+    markup = require("../content/markup").markup;
 
-var template = Template.load("src/root/comments/comment.inc.html");
+var template = Template.load(CONFIG.templateRoot + "/comments/comment.inc.html");
 
 exports.POST = function(env) {
-    var db = openDatabase();
-    var comment = Hash.merge(new Comment(), env.request.params());
+	var params = env.request.POST();
+	
+	var article = Article.get(db.stringToKey(params.parentKey));
+	
+	var comment = new Comment(article.key(), params.name);
+	comment.email = params.email;
+	comment.uri = params.uri;
+	comment.content = markup(params.content);
+	db.put(comment);
 
-    db.execute(
-        "INSERT INTO Comment (parentId, name, email, uri, content) VALUES (?, ?, ?, ?, ?)",
-        comment.parentId, comment.name, comment.email,
-        comment.uri, markup(comment.content)
-    );
-
-    // Touch the article (update ..updated)
-    // THINK: trigger?
-    db.execute("UPDATE Article SET updated=NOW() WHERE id=?", comment.parentId);
-
+	article.updated = new Date();
+	article.commentCount = article.commentCount + 1;
+	db.put(article);
+	
     if (true) { // FIXME: Check XMLHTTPRequest!
         comment.created = new Date();
-        return [200, {}, template.render({ comment: comment })];
+        return [200, {}, [template.render({ 
+        	content: comment.content,
+        	created: comment.created.format("dd/mm/yyyy HH:MM:ss"),
+        	gravatarURI: comment.gravatarURI(),
+        	authorLink: comment.authorLink()
+        })]];
     } else {
         env.request.redirect();
     }

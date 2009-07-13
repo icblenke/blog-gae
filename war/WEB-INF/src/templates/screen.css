@@ -82,6 +82,50 @@ section.main {
     overflow: hidden;
 }
 
+/* --- */
+
+/* --- */
+
+form {
+    background: #eee;
+}
+    
+fieldset {  
+    border: 1px solid #ddd;
+    margin: 0;  
+    padding: 0;
+}
+
+legend {  
+    display: none;
+    color: #000;  
+    font-weight: bold;
+    margin-left: 1em;  
+}
+
+fieldset ol {  
+    margin: 1em 0 0 0;
+    padding: 0 1em;  
+    list-style: none;
+}
+
+fieldset li {
+    padding-bottom: 1em;
+}
+
+fieldset.submit {  
+    border-style: none;
+}
+
+label {
+    display: block;
+}
+
+textarea {
+    width: 90%; 
+}
+
+/*
 fieldset {  
     margin: 1em 0 0 0;  
     padding: 0;
@@ -114,6 +158,7 @@ textarea.content {
     width: 90%;
     height: 8em;
 }
+*/
 
 section.comments {
     display: block;

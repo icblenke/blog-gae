@@ -44,13 +44,21 @@ exports.GET= function(env) {
                 "ETag": etag
             }, {
 	            article: {
-	            	title: article.title,
+	            	key: db.keyToString(article.__key__),
+            		title: article.title,
 	            	content: article.content,
 	            	created: article.created.format("mm/dd/yyyy"),
 	            	categoryTerm: category.term,
 	            	categoryLabel: category.label,
-		            comments: [],
-	            	commentCount: 0,
+		            comments: Comment.all().ancestor(article).fetch().map(function(c) {
+		            	return {
+			            	content: c.content,
+			            	created: c.created.format("dd/mm/yyyy HH:MM:ss"),
+			            	gravatarURI: c.gravatarURI(),
+			            	authorLink: c.authorLink()
+		            	}
+		            }),
+	            	commentCount: article.commentCount,
 	            	tagString: "hello, world"
 	            }
             }

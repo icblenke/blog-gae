@@ -3,10 +3,14 @@ var db = require("google/appengine/ext/db");
 /**
  * A content category
  */
-var Category = exports.Category = function(term, label) {
+var Category = exports.Category = function(term, label, parentKey) {
 	if (!term) throw new TypeError("Invalid term");
 	
-	this.setKey(db.key("Category", term));
+	if (parentKey)
+		this.setKey(db.key(parentKey, "Category", term));
+	else
+		this.setKey(db.key("Category", term));
+	
 	this.term = term;
 	this.label = label;
 }

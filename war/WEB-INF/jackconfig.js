@@ -1,7 +1,6 @@
 require.paths.unshift("WEB-INF/src");
 
-require("object");
-require("date");
+require("oop");
 
 require("nitro");
 	

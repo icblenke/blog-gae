@@ -1,3 +1,5 @@
+var crc32 = require("crc32").hash;
+
 var db = require("google/appengine/ext/db");
 
 var Gravatar = require("../users/gravatar").Gravatar;
@@ -6,19 +8,15 @@ var VALID_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 /**
  * An unclaimed comment.
- *
- * authorName
- * authorEmail
- * authorURI
- * content
- * created
- * parentId
  */
-var Comment = exports.Comment = function(parentKey) {
-	this.setKey(db.key(parentKey, "Comment"));
+var Comment = exports.Comment = function(parentKey, name) {
+	this.name = name;
+	this.created = new Date();
+	var keyName = "c" + crc32(name + this.created.getTime());
+	this.setKey(db.key(parentKey, "Comment", keyName));
 }
 
-//Object.include(Comment, Gravatar);
+Object.include(Comment, Gravatar);
 
 db.model(Comment, "Comment", {
 	name: new db.StringProperty(),

@@ -15,7 +15,7 @@ $(document).bind("ready", function() {
     $("#commentForm").bind("submit", function(e) {
         e.preventDefault();
         $.post(e.target.action, {
-            parentId: $("#commentForm #parentId").val(),
+            parentKey: $("#commentForm #parentKey").val(),
             name: $("#commentForm #name").val(),
             email: $("#commentForm #email").val(),
             uri: $("#commentForm #uri").val(),

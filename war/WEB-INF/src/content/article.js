@@ -12,11 +12,12 @@ var Category = require("./category").Category,
  */
 var Article = exports.Article = function(categoryKey, title) {
 	if (categoryKey) {
-		this.title = title;
 		this.created = this.updated = new Date();
 		var keyName = "a" + crc32(title) + this.created.format("yymmdd");
 		this.setKey(db.key(categoryKey, "Article", keyName));
 	}
+	this.title = title;
+	this.commentCount = 0;
 }
 
 //Object.include(Article, Taggable);
@@ -25,7 +26,8 @@ db.model(Article, "Article", {
 	title: new db.StringProperty(),
 	content: new db.TextProperty(),
 	created: new db.DateProperty(),
-	updated: new db.DateProperty()
+	updated: new db.DateProperty(),
+	commentCount: new db.IntegerProperty()
 });
 
 Article.prototype.path = function() {

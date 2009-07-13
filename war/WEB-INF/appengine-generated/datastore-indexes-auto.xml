@@ -1,4 +1,8 @@
-<!-- Indices written at Sun, 12 Jul 2009 09:43:21 UTC -->
+<!-- Indices written at Mon, 13 Jul 2009 08:53:23 UTC -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 6 times in query history -->
+    <datastore-index kind="Comment" ancestor="true" source="auto"/>
+
+</datastore-indexes>
