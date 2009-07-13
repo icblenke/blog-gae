@@ -1,3 +1,4 @@
 .tusk
 local.json
 war/WEB-INF/packages
+war/WEB-INF/appengine-generated
