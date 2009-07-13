@@ -1,9 +1,6 @@
-var Tag = require("./tag").Tag;
+var db = require("google/appengine/ext/db");
 
-/**
- * The Taggable mixin adds tagging functionality to objects.
- */
-var Taggable = exports.Taggable = function() {};
+var Tag = require("./tag").Tag;
 
 var CLEANUP_RX = /[\!|\.|\(|\)|\[|\]|\{|\}|\?|\&|\@]/g;
 
@@ -12,67 +9,68 @@ var tagStringCleanup = function(tagString) {
 }
 
 /**
- * Apply the given tagString to the object. Generate join table records.
- * No records are generated if the new tagString is the same with the existing 
- * tagString.
+ * The Taggable mixin adds tagging functionality to objects.
+ */
+var Taggable = exports.Taggable = function() {};
+
+Taggable.included = function(base) {
+	base.Model.properties.tagString = new db.StringProperty();
+	Object.include(base.prototype, Taggable.prototype);
+}
+
+/**
+ * Apply the given tagString to the object.
+ * WARNING: Does not save the object. 
  */
 Taggable.prototype.updateTags = function(tagString) {
     if (!tagString) return;
-
-    var table = this.constructor.db.table;
-  
+    
     this.removeTags();
     this.tagString = tagStringCleanup(tagString);
 
-    if (this.tagString != "") {
-        var db = openDatabase();
-        
-        // TODO: add option to skip the UPDATE.
-        db.execute("UPDATE " + table + " SET tagString=? WHERE id=?", this.tagString, this.id);
+	var updatedTags = [];
 
-        var t, tname, tags = this.tagString.split(",");
-    
-        for (var i in tags) {
-            tname = tags[i];
-            db.execute("INSERT INTO Tag (name, count) VALUES (?, ?) ON DUPLICATE KEY UPDATE count=count+1", tname, 1);
-            t = db.query("SELECT id FROM Tag WHERE name=?", tname).one(Tag);
-            db.execute("INSERT INTO TagTo" + table + " (parentId, tagId) VALUES (?, ?)", this.id, t.id);
-        }
+    var tags = this.tagString.split(",");
+    for (var i = 0; i < tags.length; i++) {
+    	var tname = tags[i];
+    	var tag = Tag.getByKeyName(tname);
+    	if (!tag) tag = new Tag(tname);
+    	tag.count += 1;
+		updatedTags.push(tag);
     }
+
+    db.put(updatedTags);
 }
 
 /**
  * Remove all tags.
+ * WARNING: Does not save the object. 
  */
 Taggable.prototype.removeTags = function() {
-    if (!this.tagString) return;
+	if (!this.tagString) return;
 
-    var tags = this.tagString.split(",");
-    var table = this.constructor.db.table;
-    
-    var db = openDatabase();
-    
-    for (var i in tags) {
-        db.execute("UPDATE Tag SET count=count-1 WHERE name=?", tags[i]);
-        db.execute("DELETE FROM TagTo" + table + " WHERE parent_id=?", this.id);
-    }
-    
-    // Delete obsolete tags. FIXME: potentially expensive, use index?
-    db.execute("DELETE FROM Tag WHERE count=0");
+	var updatedTags = [];
+	
+	var tags = this.tagString.split(",");
+	for (i = 0; i < tags.length; i++) {
+		var tag = Tag.getByKeyName(tags[i]);
+		if (tag) {
+			tag.count -= 1;
+			if (tag.count < 0) tag.count = 0;
+			updatedTags.push(tag);
+		}
+	}
+
+	db.put(updatedTags);
 }
 
 /**
+ * Build a linked version of the tagstring.
  */
 Taggable.prototype.tagString_linked = function() {
-    if (!this.tagString) return "";
+   if (!this.tagString) return "";
 
-    var t, tags = this.tagString.split(",");
-    var arr = [];
-    
-    for (var i in tags) {
-        t = tags[i];
-        arr.push('<a href="/tags/*' + encodeURIComponent(t) + '">' + t + '</a>');
-    }
-    
-    return arr.join(", ");
+   return this.tagString.split(",").map(function(t) {
+	   return '<a href="/tags/*' + encodeURIComponent(t) + '">' + t + '</a>'
+   }).join(", ");
 }

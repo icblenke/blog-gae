@@ -1,11 +1,12 @@
+var db = require("google/appengine/ext/db");
+
 var Paginator = require("nitro/utils/paginator").Paginator;
 
 var Article = require("../../content/article").Article,
     Tag = require("../../content/tag").Tag;
     
 exports.GET = function(env) {
-    var db = openDatabase();
-    var params = env.request.params();
+    var params = env.request.GET();
 
     var pg = new Paginator(env, 5);
     var tag = db.query("SELECT id, name FROM Tag WHERE name=?", params.id).one(Tag);

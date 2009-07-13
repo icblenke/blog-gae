@@ -19,7 +19,7 @@ exports.GET = function(env) {
 	    });
 */	        
     } else {
-//      var pg = new Paginator(env, 5);
+    	var pg = new Paginator(env, 5);
 //      var articles = Article.all().offset(pg.offset).limit(5).fetch().map(function(a) {
     	var articles = Article.all().order("-created").fetch().map(function(a) {
     		var category = a.parent();
@@ -32,19 +32,13 @@ exports.GET = function(env) {
         		categoryTerm: category.term,
         		categoryLabel: category.label,
         		commentCount: a.commentCount,
-        		tagString: "hello, world"
+        		tagString: a.tagString_linked()
         	}
         });
-/*        
-        var articles = db.query("SELECT a.*, ca.id AS categoryId, ca.label AS categoryLabel, COUNT(c.parentId) AS commentCount FROM Article a LEFT JOIN Comment c ON a.id=c.parentId LEFT JOIN Category ca ON a.categoryId=ca.id GROUP BY a.id ORDER BY a.created DESC " + pg.sqlLimit()).all(Article).map(function(a) {
-            a.path = a.path();
-            a.tagString = a.tagString_linked();
-            return a;
-        });
-*/
-        return {
-            articles: articles //,
-//            paginator: pg.paginate(articles)
+
+    	return {
+            articles: articles,
+            paginator: pg.paginate(articles)
         };
     }
 }

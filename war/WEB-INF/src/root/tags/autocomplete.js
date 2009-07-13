@@ -1,11 +1,11 @@
-var Tag = require("app/content/tag").Tag;
+var db = require("google/appengine/ext/db");
+
+var Tag = require("../../content/tag").Tag;
 
 exports.GET = function(env) {
-    var db = openDatabase();
     var params = env.request.params();
 
-    var like = params.q + "%";
-    var tags = db.query("SELECT name FROM Tag WHERE name LIKE ? ORDER BY COUNT DESC LIMIT 100", like).all(Tag);
+    var tags = Tag.all().filter("name >=", params.q).limit(100).fetch();
 
     res = [];
     for (var i in tags)

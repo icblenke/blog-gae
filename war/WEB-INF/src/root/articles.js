@@ -13,22 +13,18 @@ exports.POST = function(env) {
     
     var article;
     
-    if (params.key) { // Update an existing object. 
-        db.execute(
-            "UPDATE Article SET title=?, content=?, categoryId=? WHERE id=?",
-            params.title, markup(params.content), params.categoryId, params.id
-        );
+    if (params.key) { // Update an existing object.
+    	article = Article.get(db.stringtoKey(params.key));
     } else { // Insert a new object.
     	var category = Category.get(db.stringToKey(params.categoryKey));
     	if (!category) throw NotFound("Category not found");
-    
         article = new Article(category.key(), params.title);
-        article.content = markup(params.content);
-        article.created = article.updated = new Date();
-        db.put(article);
-    }        
+    }
 
-//    article.updateTags(params.tagString);
+    article.content = markup(params.content);
+    article.created = article.updated = new Date();
+    article.updateTags(params.tagString);
+    db.put(article);
     
 	return Response.redirect("/");
 }

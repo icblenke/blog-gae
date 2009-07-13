@@ -1,13 +1,13 @@
+var db = require("google/appengine/ext/db");
+
 var NotFound = require("nitro/exceptions").NotFound;
 
 var Tag = require("../content/tag").Tag;
 
 exports.GET = function(env) {
-    var db = openDatabase();
+    var tags = Tag.all().order("-count").limit(100).fetch();
     
-    var tags = db.query("SELECT name, count FROM Tag ORDER BY COUNT DESC LIMIT 100").all(Tag);
-
-    if (tags) {
+    if (tags.length > 0) {
         var size, maxSize = 0;
         var maxCount = Number(tags[0].count);
 
@@ -30,5 +30,5 @@ exports.GET = function(env) {
             maxSize: maxSize
         }
     } else
-        throw NotFound("No tags found");
+        return NotFound("No tags found");
 }

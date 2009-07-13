@@ -20,8 +20,6 @@ var Article = exports.Article = function(categoryKey, title) {
 	this.commentCount = 0;
 }
 
-//Object.include(Article, Taggable);
-
 db.model(Article, "Article", {
 	title: new db.StringProperty(),
 	content: new db.TextProperty(),
@@ -29,6 +27,8 @@ db.model(Article, "Article", {
 	updated: new db.DateProperty(),
 	commentCount: new db.IntegerProperty()
 });
+
+Object.include(Article, Taggable);
 
 Article.prototype.path = function() {
     return "*" + db.keyToString(this.key()) + "/" + seo(this.title);

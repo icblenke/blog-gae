@@ -59,7 +59,7 @@ exports.GET= function(env) {
 		            	}
 		            }),
 	            	commentCount: article.commentCount,
-	            	tagString: "hello, world"
+	            	tagString: article.tagString_linked()
 	            }
             }
         ];
