@@ -8,20 +8,17 @@ var Article = require("../content/article").Article,
 
 exports.GET = function(env) {
     if ("application/atom+xml" == env["CONTENT_TYPE"]) {
-/*    	
-        var articles = db.query("SELECT * FROM Article ORDER BY created DESC LIMIT 10").all(Article);
+        var articles = Article.all().order("-created").limit(10).fetch();
 
-        return encode(articles, {
+        return [200, {}, [encode(articles, {
 		    title: "Blog example",
 		    base: "http://localhost:8080",
 		    self: "http://localhost:8080/index.atom",
 		    updated: articles[0].created
-	    });
-*/	        
+	    })]];
     } else {
     	var pg = new Paginator(env, 5);
-//      var articles = Article.all().offset(pg.offset).limit(5).fetch().map(function(a) {
-    	var articles = Article.all().order("-created").fetch().map(function(a) {
+    	var articles = pg.limitQuery(Article.all().order("-created")).fetch().map(function(a) {
     		var category = a.parent();
         	return {
         		key: db.keyToString(a.key()),
