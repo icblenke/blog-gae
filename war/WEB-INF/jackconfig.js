@@ -32,7 +32,9 @@ exports.local = function(app) {
 	CONFIG.root = "WEB-INF/src/root";
 	CONFIG.templateRoot = "WEB-INF/src/templates";
 	CONFIG.xslPath = "WEB-INF/src/html.xsl";
-	return ShowExceptions(Lint(ContentLength(Cascade([File("."), app]))));
+//  gmosx: there is a bug with contentlength.
+//	return ShowExceptions(Lint(ContentLength(Cascade([File("."), app]))));
+	return ShowExceptions(ContentLength(Cascade([File("."), app])));
 }
 
 exports.gae = function(app) {

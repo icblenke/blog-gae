@@ -1,6 +1,7 @@
 var db = require("google/appengine/ext/db");
 
-var Tag = require("./tag").Tag;
+var Tag = require("./tag").Tag,
+	TagRelation = require("./tag").TagRelation;
 
 var CLEANUP_RX = /[\!|\.|\(|\)|\[|\]|\{|\}|\?|\&|\@]/g;
 
@@ -29,6 +30,7 @@ Taggable.prototype.updateTags = function(tagString) {
     this.tagString = tagStringCleanup(tagString);
 
 	var updatedTags = [];
+	var updatedRelations = [];
 
     var tags = this.tagString.split(",");
     for (var i = 0; i < tags.length; i++) {
@@ -37,9 +39,14 @@ Taggable.prototype.updateTags = function(tagString) {
     	if (!tag) tag = new Tag(tname);
     	tag.count += 1;
 		updatedTags.push(tag);
+		var tr = new TagRelation(tag, this);
+		tr.created = this.created;
+    	updatedRelations.push(tr);
+    	
     }
 
     db.put(updatedTags);
+    db.put(updatedRelations);
 }
 
 /**
@@ -62,6 +69,7 @@ Taggable.prototype.removeTags = function() {
 	}
 
 	db.put(updatedTags);
+	db.remove(TagRelation.all().ancestor(tag).filter("targetKey =", this.key()).keys());
 }
 
 /**
