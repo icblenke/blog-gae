@@ -6,7 +6,7 @@ var Article = require("../content/article").Article,
 	Comment = require("../content/comment").Comment,
     markup = require("../content/markup").markup;
 
-var template = Template.load(CONFIG.templateRoot + "/comments/comment.inc.html");
+var template;
 
 exports.POST = function(env) {
 	var params = env.request.POST();
@@ -25,6 +25,7 @@ exports.POST = function(env) {
 	
     if (true) { // FIXME: Check XMLHTTPRequest!
         comment.created = new Date();
+        template = template || Template.load(CONFIG.templateRoot + "/comments/comment.inc.html");
         return [200, {}, [template.render({ 
         	content: comment.content,
         	created: comment.created.format("dd/mm/yyyy HH:MM:ss"),
