@@ -1,20 +1,26 @@
-var db = require("google/appengine/ext/db");
+var db = require("google/appengine/ext/db"),
+    memcache = require("google/appengine/api/memcache");
 
 var Category = require("./content/category").Category,
     Comment = require("./content/comment").Comment;
 
+var Template = require("template").Template;
+
+var template;
+
 exports.Aside = function(response) {
-	categories = Category.all()
-    response.asideCategories = categories.fetch();
-    response.asideLatestComments = [];
+    var aside = memcache.get("aside");
+    
+    if (!aside) {
+        template = template || Template.load(CONFIG.templateRoot + "/aside.inc.html");
+        aside = template.render({ 
+            categories: Category.all().fetch(),
+            comments: Comment.all().order("-created").limit(5)
+        });      
+        memcache.set("aside", aside);  
+    }
+             
+    response.aside = aside;             
+    
     return response;
-//	Hash.update(env, { 
-////        	db.query("SELECT id, label, term FROM Category ORDER BY label").all(Category).map(function(c) {
-////            c.path = c.path();
-////            return c;
-////        }),
-////        asideLatestComments: db.query("SELECT c.name, c.created, c.parentId, a.title AS articleTitle FROM Comment AS c JOIN Article AS a ON c.parentId=a.id ORDER BY c.created DESC LIMIT 10").all(Comment)
-//    });
-//    
-//    return [null, null, env];
 }

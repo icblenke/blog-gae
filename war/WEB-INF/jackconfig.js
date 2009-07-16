@@ -38,7 +38,7 @@ exports.local = function(app) {
 }
 
 exports.gae = function(app) {
-	CONFIG.reload = true;
+	CONFIG.reload = false;
 	CONFIG.root = "WEB-INF/src/root";
 	CONFIG.templateRoot = "WEB-INF/src/templates";
 	CONFIG.xslPath = "WEB-INF/src/html.xsl";

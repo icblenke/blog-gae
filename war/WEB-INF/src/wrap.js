@@ -9,7 +9,7 @@ exports.Wrap = function(app) {
         var response = app(env);
         
         if (typeof(response[2]) != "string")
-            if (env["REQUEST_METHOD"] == "GET") { // TODO: also check that Content-Type == text/html!
+            if ((env["REQUEST_METHOD"] == "GET") && (env["CONTENT_TYPE"] == "text/html")) {
                 var data = Aside(response[2]);
  
                 if (!data.metaKeywords)
