@@ -35,6 +35,8 @@ http://github.com/gmosx/narwhal
 
 ...
 
+$ ant runserver
+
 The application will start listening at localhost:8080, so use your favourite browser to verify that everything works correctly.
 
 
