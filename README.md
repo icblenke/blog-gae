@@ -30,21 +30,21 @@ This example depends on several Narwhal (www.narwhaljs.org) packages:
 
 At the moment, customized versions of Narwhal and Jack are required. Please get patched versions from:
     
-http://github.com/gmosx/jack
-http://github.com/gmosx/narwhal
+	http://github.com/gmosx/jack
+	http://github.com/gmosx/narwhal
 
 Until we have an automated setup script you have to manually setup the packages dir as follows:
 
-war/WEB-INF/packages/appengine/lib -> symbolic link
-war/WEB-INF/packages/appengine/package.json -> symbolic link
-war/WEB-INF/packages/jack/lib -> symbolic link
-war/WEB-INF/packages/jack/package.json -> symbolic link
-war/WEB-INF/packages/narwhal/lib -> symbolic link
-war/WEB-INF/packages/narwhal/package.json -> symbolic link
-war/WEB-INF/packages/nitro/lib -> symbolic link
-war/WEB-INF/packages/nitro/package.json -> symbolic link
-war/WEB-INF/packages/template/lib -> symbolic link
-war/WEB-INF/packages/template/package.json -> symbolic link
+	war/WEB-INF/packages/appengine/lib -> symbolic link
+	war/WEB-INF/packages/appengine/package.json -> symbolic link
+	war/WEB-INF/packages/jack/lib -> symbolic link
+	war/WEB-INF/packages/jack/package.json -> symbolic link
+	war/WEB-INF/packages/narwhal/lib -> symbolic link
+	war/WEB-INF/packages/narwhal/package.json -> symbolic link
+	war/WEB-INF/packages/nitro/lib -> symbolic link
+	war/WEB-INF/packages/nitro/package.json -> symbolic link
+	war/WEB-INF/packages/template/lib -> symbolic link
+	war/WEB-INF/packages/template/package.json -> symbolic link
 
 You may wish to edit build.xml (for example to point sdk.dir to the directory where the
 appengine-java-sdk resides)
