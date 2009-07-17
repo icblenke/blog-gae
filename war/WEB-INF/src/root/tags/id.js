@@ -17,7 +17,7 @@ exports.GET = function(env) {
     
 	var pg = new Paginator(env, 5);
     var articleKeys = pg.limitQuery(TagRelation.all()).ancestor(tag).order("-created").fetch().map(function(tr) {
-    	return tr.targetKey;
+    	return tr.target;
     });
     var articles = db.get(articleKeys).map(function(a) {
 		var category = a.parent();

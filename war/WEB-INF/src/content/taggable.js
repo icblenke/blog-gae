@@ -69,7 +69,7 @@ Taggable.prototype.removeTags = function() {
 	}
 
 	db.put(updatedTags);
-	db.remove(TagRelation.all().ancestor(tag).filter("targetKey =", this.key()).keys());
+	db.remove(TagRelation.all().ancestor(tag).filter("target =", this.key()).keys());
 }
 
 /**

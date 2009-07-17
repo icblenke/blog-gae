@@ -19,16 +19,16 @@ Tag.prototype.toString = function() {
 
 var TagRelation = exports.TagRelation = function(tag, target) {
 	var tagKey = db.resolveKey(tag)
-	this.targetKey = db.resolveKey(target);
+	this.target = target;
 	
 	this.setKey(db.key(
-		db.resolveKey(tag), 
+		tagKey, 
 		"TagRelation", 
-		crc32(db.keyToString(tagKey) + db.keyToString(this.targetKey))
+		crc32(db.keyToString(tagKey) + db.keyToString(target.key()))
 	));
 }
 
 db.model(TagRelation, "TagRelation", {
-	targetKey: new db.ReferenceProperty(),
+	target: new db.ReferenceProperty(Tag),
 	created: new db.DateTimeProperty()
 });
