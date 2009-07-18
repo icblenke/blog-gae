@@ -12,17 +12,20 @@ exports.POST = function(env) {
 	var params = env.request.POST();
 	
 	var article = Article.get(db.stringToKey(params.parentKey));
-	
+
 	var comment = new Comment(article.key(), params.name);
 	comment.email = params.email;
 	comment.uri = params.uri;
 	comment.content = markup(params.content);
-	db.put(comment);
 
 	article.updated = new Date();
 	article.commentCount = article.commentCount + 1;
-	db.put(article);
-	
+
+    // Save the comment and update the comment count in a single transaction.
+    db.runInTransaction(function() {
+        db.put([comment, article]);
+    });
+    	
     if (true) { // FIXME: Check XMLHTTPRequest!
         comment.created = new Date();
         template = template || Template.load(CONFIG.templateRoot + "/comments/comment.inc.html");

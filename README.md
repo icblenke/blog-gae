@@ -52,14 +52,6 @@ Until we have an automated setup script you have to manually setup the packages 
 	war/WEB-INF/packages/template/lib -> symbolic link
 	war/WEB-INF/packages/template/package.json -> symbolic link
 
-or easier (but less optimal for deployment):
-
-	war/WEB-INF/packages/appengine -> symbolic link
-	war/WEB-INF/packages/jack-> symbolic link
-	war/WEB-INF/packages/narwhal -> symbolic link
-	war/WEB-INF/packages/nitro -> symbolic link
-	war/WEB-INF/packages/template -> symbolic link
-
 You may wish to edit build.xml (for example to point sdk.dir to the directory where the
 appengine-java-sdk resides)
 
