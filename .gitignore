@@ -2,5 +2,5 @@
 local.json
 war/WEB-INF/packages
 war/WEB-INF/appengine-generated
-war/WEB-INF/lib
 war/WEB-INF/classes/org
+war/WEB-INF/lib/appengine-api-1.0-sdk-1.2.2.jar
