@@ -9,6 +9,8 @@ var tagStringCleanup = function(tagString) {
     return tagString.replace(CLEANUP_RX, "").replace(/, /g, ",").replace(/,$/, ""); // .squeeze(" ")
 }
 
+// THINK: add transactions?
+
 /**
  * The Taggable mixin adds tagging functionality to objects.
  */

@@ -1,20 +1,15 @@
-<?xml version="1.0"?>
+{.layout "/layout.html"}
 
-<x:page title="${tag}" xmlns:x="http://lib.unjou.org/Schemas/Style"
-                       xmlns:xi="http://www.w3.org/2001/XInclude">
-
-<x:breadcrumbs>
-    / <a href="/tags">Tags</a> / articles tagged with '{tag}'
-</x:breadcrumbs>
+<l:breadcrumbs>
+    <a href="/">Home</a> / <a href="/tags">Tags</a> / articles tagged with '{tag}'
+</l:breadcrumbs>
 
 <section class="main hfeed">
 {.with articles} 
-<xi:include href="article.inc.html" />
+{.include "/article.inc.html"}
 {.end}
 
-<xi:include href="paginator.inc.html" />
+{.include "/paginator.inc.html"}
 </section>
 
 {aside}
-
-</x:page>

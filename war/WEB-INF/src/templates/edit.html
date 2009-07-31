@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
+{.layout "/layout.html"}
 
-<x:page title="{title}" xmlns:x="http://lib.unjou.org/Schemas/Style"
-                         xmlns:xi="http://www.w3.org/2001/XInclude">
+<l:breadcrumbs>
+    <a href="/">Home</a> / {title}
+</l:breadcrumbs>
 
-<x:breadcrumbs>
-    / {title}
-</x:breadcrumbs>
-
-<x:head>
-<link rel="stylesheet" href="/jquery.autocomplete.css" type="text/css" />
-</x:head>
-<x:script href="/jquery.autocomplete.js" />
-<x:script>
+<l:head>
+    <link rel="stylesheet" href="/jquery.autocomplete.css" type="text/css" />
+</l:head>
+<l:scripts> 
+    <script href="/jquery.autocomplete.js"></script>
+</l:scripts>    
+<l:script>
     $(document).bind("ready", function() {
         $("#tagString").autocomplete("/tags/autocomplete.txt", { 
             multiple: true, 
             autoFill: true 
         });
     });
-</x:script>
+</l:script>
 
 <form method="POST" action="/articles">
     {.if key}
@@ -55,5 +54,3 @@
         <button>Cancel</button>
     </fieldset>
 </form>    
-
-</x:page>

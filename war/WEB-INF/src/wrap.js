@@ -13,7 +13,7 @@ exports.Wrap = function(app) {
     return function(env) {
         var response = app(env);
         
-        if (typeof(response[2]) != "string")
+        if (typeof(response[2]) != "string") {
             if ((env["REQUEST_METHOD"] == "GET") && (env["CONTENT_TYPE"] == "text/html")) {
                 var data = response[2];
  
@@ -35,6 +35,7 @@ exports.Wrap = function(app) {
 
                 response[2] = data;
             }
+        }
         
         return response;
     }

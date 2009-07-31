@@ -1,9 +1,6 @@
-<?xml version="1.0"?>
+{.layout "/layout.html"}
 
-<x:page title="{title}" xmlns:x="http://lib.unjou.org/Schemas/Style"
-                         xmlns:xi="http://www.w3.org/2001/XInclude">
-
-<x:script>
+<l:script>
 $(document).bind("ready", function() {
     $(".delete").bind("click", function(e) {
         e.preventDefault();
@@ -26,36 +23,26 @@ $(document).bind("ready", function() {
         });
     });
 });
-</x:script>
-
-<x:breadcrumbs>
-{.with article}
-    / <a href="/categories/*{categoryTerm}/{categoryLabel}">{categoryLabel}</a> / {title}
-{.end}
-</x:breadcrumbs>
+</l:script>
 
 {.with article}
 
 <section class="main hfeed">
 
-<xi:include href="article.inc.html" />
+{.include "/article.inc.html"}
 
 <h3 id="comments">{commentsCount} Comments</h3>
 
 <section id="commentList" class="comments">
 {.with comments}
-    <xi:include href="comments/comment.inc.html" />
+    {.include "/comments/comment.inc.html"}
 {.end}
 <x:clear />
 </section>
 
-<xi:include href="comments/form.inc.html" />
-
+{.include "/comments/form.inc.html"}
 </section>
 
 {.end}
 
 {aside}
-
-</x:page>
-

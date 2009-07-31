@@ -1,22 +1,17 @@
-<?xml version="1.0"?>
+{.layout "/layout.html"}
 
-<x:page title="{category}" xmlns:x="http://lib.unjou.org/Schemas/Style"
-                           xmlns:xi="http://www.w3.org/2001/XInclude">
-
-<x:breadcrumbs>
+<l:breadcrumbs>
 {.with category}
-    / {label}
+    <a href="/">Home</a> / {label}
 {.end}
-</x:breadcrumbs>
+</l:breadcrumbs>
 
 <section class="main hfeed">
 {.with articles} 
-<xi:include href="article.inc.html" />
+{.include "/article.inc.html"}
 {.end}
 
-<xi:include href="paginator.inc.html" />
+{.include "/paginator.inc.html"}
 </section>
 
 {aside}
-
-</x:page>
