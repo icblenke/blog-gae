@@ -55,9 +55,9 @@ Until we have an automated setup script you have to manually setup the packages 
 You may wish to edit build.xml (for example to point sdk.dir to the directory where the
 appengine-java-sdk resides)
 
-$ ant runserver
+    $ ant runserver
 
-The application will start listening at localhost:8080, so use your favourite browser to verify that everything works correctly.
+The application will start listening at localhost:8080, so use your favourite browser to verify that everything works correctly. Do *not* use narwhal/bin/sea.
 
 Don't forget to click the link 'Reset db' in the right-hand sidebar to initialize the database!
 
