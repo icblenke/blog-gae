@@ -1,0 +1,16 @@
+{
+    "name": "blog-gae",
+    "author": "George Moschovitis",
+    "email": "george.moschovitis@gmail.com",
+    "dependencies": [
+        "appengine",
+        "jack",
+        "narwhal",
+        "nitro", 
+        "template"
+    ],
+    "contributors": [],
+    "js": "src",
+    "main": "jackconfig.js"
+}
+
