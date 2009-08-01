@@ -1,5 +1,6 @@
-{.layout "/layout.html"}
+{.extends "/layout.html"}
 
+{.block content}
 <section class="main hfeed">
 {.with articles} 
 {.include "/article.inc.html"}
@@ -9,3 +10,4 @@
 </section>
 
 {aside}
+{.end content}

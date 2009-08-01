@@ -1,7 +1,11 @@
-{.layout "/layout.html"}
+{.extends "/layout.html"}
 
-<l:breadcrumbs><a href="/">Home</a> / Tags</l:breadcrumbs>
+{.block breadcrumbs}
+    <a href="/">Home</a> / Tags
+{.end breadcrumbs} 
 
+{.block content}
 <div class="tagcloud tags" style="line-height: {maxSize}em">
     {tags}
 </div>
+{.end content}

@@ -1,6 +1,6 @@
-{.layout "/layout.html"}
+{.extends "/layout.html"}
 
-<l:script>
+{.block script}
 $(document).bind("ready", function() {
     $(".delete").bind("click", function(e) {
         e.preventDefault();
@@ -23,8 +23,9 @@ $(document).bind("ready", function() {
         });
     });
 });
-</l:script>
+{.end script}
 
+{.block content}
 {.with article}
 
 <section class="main hfeed">
@@ -46,3 +47,4 @@ $(document).bind("ready", function() {
 {.end}
 
 {aside}
+{.end content}

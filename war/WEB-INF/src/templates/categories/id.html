@@ -1,11 +1,12 @@
-{.layout "/layout.html"}
+{.extends "/layout.html"}
 
-<l:breadcrumbs>
+{.block breadcrumbs}
 {.with category}
     <a href="/">Home</a> / {label}
 {.end}
-</l:breadcrumbs>
+{.end breadcrumbs}
 
+{.block content}
 <section class="main hfeed">
 {.with articles} 
 {.include "/article.inc.html"}
@@ -15,3 +16,4 @@
 </section>
 
 {aside}
+{.end content}

@@ -1,24 +1,27 @@
-{.layout "/layout.html"}
+{.extends "/layout.html"}
 
-<l:breadcrumbs>
+{.block breadcrumbs}
     <a href="/">Home</a> / {title}
-</l:breadcrumbs>
+{.end breadcrumbs}
 
-<l:head>
+{.block head}
     <link rel="stylesheet" href="/jquery.autocomplete.css" type="text/css" />
-</l:head>
-<l:scripts> 
+{.end head}
+
+{.block scripts}
     <script href="/jquery.autocomplete.js"></script>
-</l:scripts>    
-<l:script>
+{.end scripts}
+
+{.block script}
     $(document).bind("ready", function() {
         $("#tagString").autocomplete("/tags/autocomplete.txt", { 
             multiple: true, 
             autoFill: true 
         });
     });
-</l:script>
+{.end script}
 
+{.block content}
 <form method="POST" action="/articles">
     {.if key}
     <input type="hidden" name="key" value="{key}" />
@@ -53,4 +56,5 @@
         <button type="reset">Reset</button>
         <button>Cancel</button>
     </fieldset>
-</form>    
+</form>
+{.end content}
