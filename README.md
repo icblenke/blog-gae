@@ -62,6 +62,19 @@ The application will start listening at localhost:8080, so use your favourite br
 Don't forget to click the link 'Reset db' in the right-hand sidebar to initialize the database!
 
 
+Running on AppEngine
+--------------------
+
+To prepare the application for deployment to Google App Engine, edit the web.xml file:
+
+    <init-param>
+        <param-name>environment</param-name>
+        <param-value>gae</param-value>
+    </init-param>
+
+This change enables the 'gae' jack environment (instead of the default 'local' environment).
+
+
 Credits
 -------
 
