@@ -1,6 +1,6 @@
 var db = require("google/appengine/ext/db");
 
-var redirect = require("jack/redirect").Redirect("/");
+var redirect = require("nitro/response").redirectResponse;
 
 var Category = require("content/category").Category,
 	Article = require("content/article").Article,
@@ -20,5 +20,5 @@ exports.GET = function(env) {
 	];
 	db.put(categories);
 	
-	return redirect(env);
+	return redirect("/");
 }
