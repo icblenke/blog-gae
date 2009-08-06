@@ -12,9 +12,9 @@ exports.Wrap = function(app) {
 
     return function(env) {
         var response = app(env);
-        
+
         if (typeof(response[2]) != "string") {
-            if ((env["REQUEST_METHOD"] == "GET") && (env["CONTENT_TYPE"] == "text/html")) {
+            if (env["REQUEST_METHOD"] == "GET") { // FIXME: check for text/html content type!
                 var data = response[2];
  
                 var aside = memcache.get("aside");
@@ -27,7 +27,7 @@ exports.Wrap = function(app) {
                     });      
                     memcache.set("aside", aside);  
                 }
-                         
+
                 data.aside = aside;             
   
                 if (!data.metaKeywords)

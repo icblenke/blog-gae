@@ -1,6 +1,6 @@
 var db = require("google/appengine/ext/db");
 
-var redirect = require("nitro/response").redirectResponse;
+var redirect = require("nitro/response").redirect;
 
 var Category = require("content/category").Category,
 	Article = require("content/article").Article,

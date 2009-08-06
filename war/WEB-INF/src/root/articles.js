@@ -1,7 +1,7 @@
 var db = require("google/appengine/ext/db");
 
-var NotFound = require("nitro/exceptions").NotFound,
-    redirect = require("nitro/response").redirectResponse;
+var notFound = require("nitro/response").notFound,
+    redirect = require("nitro/response").redirect;
     
 var Article = require("content/article").Article,
 	Category = require("content/category").Category,
@@ -16,7 +16,7 @@ exports.POST = function(env) {
     	article = Article.get(db.stringtoKey(params.key));
     } else { // Insert a new object.
     	var category = Category.get(db.stringToKey(params.categoryKey));
-    	if (!category) throw NotFound("Category not found");
+    	if (!category) return notFound("Category not found");
         article = new Article(category.key(), params.title);
     }
 
