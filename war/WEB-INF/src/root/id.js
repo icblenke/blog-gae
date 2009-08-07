@@ -1,18 +1,17 @@
-var NotFound = require("nitro/exceptions").NotFound;
-
 var db = require("google/appengine/ext/db");
 
+var redirectToReferrer = require("nitro/response").redirectToReferrer,
+    notFound = require("nitro/response").notFound;
+    
 var Article = require("../content/article").Article,
     Comment = require("../content/comment").Comment;
     
-exports.GET= function(env) {
+exports.GET = function(env) {
     var params = env.request.params();
     var key = params.id.split("/")[0];
 
-//    var article = db.query("SELECT a.*, ca.id AS categoryId, ca.label AS categoryLabel FROM Article a LEFT JOIN Category ca ON a.categoryId=ca.id WHERE a.id=?", id).one(Article);
-//
     var article = Article.get(db.stringToKey(key));
-    if (!article) throw NotFound();
+    if (!article) throw notFound();
     
     var etag = article.updated.format("yymmddHHMMss");
 
@@ -28,13 +27,6 @@ exports.GET= function(env) {
             ""
         ];
     } else {
-//        article.comments = db.query("SELECT * FROM Comment WHERE parentId=?", id).all(Comment).map(function(c) {
-//            c.gravatarURI = c.gravatarURI();
-//            c.authorLink = c.authorLink();
-//            return c;
-//        });
-//        article.commentCount = 3 // article.comments.length;
-//        article.metaKeywords = article.tagString ;
 		var category = article.parent();
 
 		return [
@@ -44,7 +36,7 @@ exports.GET= function(env) {
                 "ETag": etag
             }, {
 	            article: {
-	            	key: db.keyToString(article.__key__),
+	            	key: db.keyToString(article.key()),
             		title: article.title,
 	            	content: article.content,
 	            	created: article.created.format("mm/dd/yyyy"),
@@ -52,6 +44,7 @@ exports.GET= function(env) {
 	            	categoryLabel: category.label,
 		            comments: Comment.all().ancestor(article).fetch().map(function(c) {
 		            	return {
+		            	    key: db.keyToString(c.key()),
 			            	content: c.content,
 			            	created: c.created.format("dd/mm/yyyy HH:MM:ss"),
 			            	gravatarURI: c.gravatarURI(),
@@ -67,10 +60,9 @@ exports.GET= function(env) {
 }
 
 exports.DELETE = function(env) {
-    var params = env.request.params();
-    var id = params.id.split("/")[0];
-    
-    db.execute("DELETE FROM Article WHERE id=?", id);
-
-    env.request.redirect();
+    var params = env.request.GET();
+    var key = params.id.split("/")[0];
+    db.remove(db.stringToKey(key));
+ 
+    return redirectToReferrer(env);
 }

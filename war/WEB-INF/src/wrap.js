@@ -4,7 +4,7 @@ var db = require("google/appengine/ext/db"),
 var Category = require("./content/category").Category,
     Comment = require("./content/comment").Comment;
 
-var loadTemplate = require("nitro/utils/template").Template.load;
+var loadTemplate = require("nitro/template").Template.load;
 var template;
     
 exports.Wrap = function(app) {

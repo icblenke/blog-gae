@@ -1,6 +1,7 @@
 var db = require("google/appengine/ext/db");
 
-var Template = require("template").Template;
+var redirectToReferrer = require("nitro/response").redirectToReferrer,
+    loadTemplate = require("nitro/template").Template.load;
 
 var Article = require("../content/article").Article,
 	Comment = require("../content/comment").Comment,
@@ -28,7 +29,7 @@ exports.POST = function(env) {
     	
     if (true) { // FIXME: Check XMLHTTPRequest!
         comment.created = new Date();
-        template = template || Template.load(CONFIG.templateRoot + "/comments/comment.inc.html");
+        if (!template) template = loadTemplate("/comments/comment.inc.html");
         return [200, {}, [template.render({ 
         	content: comment.content,
         	created: comment.created.format("dd/mm/yyyy HH:MM:ss"),

@@ -1,5 +1,17 @@
 {.extends "/layout/page.html"}
 
+{.block script}
+$(document).bind("ready", function() {
+    $(".delete").bind("click", function(e) {
+        e.preventDefault();
+        if (confirm("Are you sure you want to delete?")) {
+            $.post(e.target.href, { _method: "DELETE" });
+            $(this).parents(".hentry").hide();
+        }
+    });
+});
+{.end script}
+
 {.block content}
 {aside}
 <section class="main hfeed">

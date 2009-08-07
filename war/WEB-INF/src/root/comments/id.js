@@ -1,13 +1,22 @@
-var Comment = require("app/content/comment").Comment;
+var db = require("google/appengine/ext/db");
+
+var redirect = require("nitro/response").redirect;
+
+var Comment = require("content/comment").Comment,
+    Article = require("content/article").Article;
     
 exports.DELETE = function(env) {
-    var db = openDatabase();
-    var params = env.request.params();
- 
-    var comment = db.query("SELECT parentId FROM Comment WHERE id=?", params.id).one(Comment);
+    var params = env.request.GET();
+
+    var comment = Comment.get(db.stringToKey(params.id));
     
-    db.execute("DELETE FROM Comment WHERE id=?", params.id);
-    db.execute("UPDATE Article SET updated=NOW() WHERE id=?", comment.parentId);
- 
-    env.request.redirect();
+    db.runInTransaction(function() {
+        var article = comment.parent();
+	    article.updated = new Date();
+	    article.commentCount = article.commentCount - 1;
+	    article.put();     
+        comment.remove();
+    });
+
+    return redirect("/");
 }
