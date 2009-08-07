@@ -1,7 +1,7 @@
 var db = require("google/appengine/ext/db");
 
 var Paginator = require("nitro/utils/paginator").Paginator,
-	NotFound = require("nitro/exceptions").NotFound;
+	notFound = require("nitro/response").notFound;
 
 var Article = require("../../content/article").Article,
     Category = require("../../content/category").Category;
@@ -10,7 +10,7 @@ exports.GET = function(env) {
     var params = env.request.params();
 
     var category = Category.getByKeyName(params.id);
-    if (!category) return NotFound("Category not found");
+    if (!category) return notFound("Category not found");
     
     var pg = new Paginator(env, 5);
     var articles = Article.all().ancestor(category).order("-created");

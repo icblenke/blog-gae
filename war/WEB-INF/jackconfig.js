@@ -22,7 +22,7 @@ var Wrap = require("./src/wrap").Wrap;
 CONFIG.root = "WEB-INF/src/root";
 CONFIG.templateRoot = "WEB-INF/src/templates";
 
-exports.app = MethodOverride(Normalize(SessionManager(Render(Wrap(Dispatch())), "sessionsecret")));
+exports.app = MethodOverride(Normalize(Errors(SessionManager(Render(Wrap(Dispatch())), "sessionsecret"))));
 
 exports.development = function(app) {
 	throw new Error("You cannot launch a Google App Engine application with jackup");

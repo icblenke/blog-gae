@@ -4,8 +4,7 @@ var db = require("google/appengine/ext/db"),
 var Category = require("./content/category").Category,
     Comment = require("./content/comment").Comment;
 
-var Template = require("template").Template;
-
+var loadTemplate = require("nitro/utils/template").Template.load;
 var template;
     
 exports.Wrap = function(app) {
@@ -20,7 +19,7 @@ exports.Wrap = function(app) {
                 var aside = memcache.get("aside");
                 
                 if (!aside) {
-                    template = template || Template.load(CONFIG.templateRoot + "/aside.inc.html");
+                    if (!template) template = loadTemplate("/aside.inc.html");
                     aside = template.render({ 
                         categories: Category.all().fetch(),
                         comments: Comment.all().order("-created").limit(5)
