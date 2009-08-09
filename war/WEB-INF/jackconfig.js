@@ -20,13 +20,16 @@ var Wrap = require("./src/wrap").Wrap;
 CONFIG.root = "WEB-INF/src/root";
 CONFIG.templateRoot = "WEB-INF/src/templates";
 
+// The application.
 exports.app = ContentLength(MethodOverride(Normalize(Errors(SessionManager(Render(Wrap(Dispatch())), "sessionsecret")))));
 exports.debug = ShowExceptions(exports.app);
 
+// Run on development server.
 exports.local = function(app) {
     return require("jack/reloader").Reloader(module.id, "debug");
 }
 
-exports.gae = function(app) {
+// Run on Google App Engine hosting infrastructure.
+exports.hosted = function(app) {
 	return app;
 }

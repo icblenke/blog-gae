@@ -14,7 +14,8 @@
         <init-param>
             <param-name>optimizationLevel</param-name>
             <param-value>-1</param-value>
-        </init-param>	</servlet>
+        </init-param>	
+    </servlet>
 	<servlet-mapping>
 		<servlet-name>jack</servlet-name>
 		<url-pattern>/*</url-pattern>

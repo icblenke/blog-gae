@@ -57,7 +57,9 @@ appengine-java-sdk resides)
 
     $ ant runserver
 
-The application will start listening at localhost:8080, so use your favourite browser to verify that everything works correctly. Do *not* use narwhal/bin/sea.
+The application will start listening at localhost:8080, so use your favourite browser to verify that everything works correctly. 
+
+WARNING: Do *not* use narwhal/bin/sea before runnin ant runserver!
 
 Don't forget to click the link 'Reset db' in the right-hand sidebar to initialize the database!
 
@@ -69,10 +71,14 @@ To prepare the application for deployment to Google App Engine, edit the web.xml
 
     <init-param>
         <param-name>environment</param-name>
-        <param-value>gae</param-value>
+        <param-value>hosted</param-value>
     </init-param>
+    <init-param>
+        <param-name>optimizationLevel</param-name>
+        <param-value>9</param-value>
+    </init-param>	
 
-This change enables the 'gae' jack environment (instead of the default 'local' environment).
+This change enables the 'hosted' jack environment (instead of the default 'local' environment). It also sets the Rhino optimization level to the max setting.
 
 
 Credits
