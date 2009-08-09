@@ -44,9 +44,9 @@ Until we have an automated setup script you have to manually setup the packages 
 	war/WEB-INF/packages/narwhal/local.json -> symbolic link
 	war/WEB-INF/packages/narwhal/narwhal.conf -> symbolic link
 	war/WEB-INF/packages/narwhal/narwhal.js -> symbolic link
-	war/WEB-INF/packages/narwhal/platforms/default -> symbolic link
-	war/WEB-INF/packages/narwhal/platforms/rhino -> symbolic link
-	war/WEB-INF/packages/narwhal/platforms/secure -> symbolic link
+	war/WEB-INF/packages/narwhal/engines/default -> symbolic link
+	war/WEB-INF/packages/narwhal/engines/rhino -> symbolic link
+	war/WEB-INF/packages/narwhal/engines/secure -> symbolic link
 	war/WEB-INF/packages/nitro/lib -> symbolic link
 	war/WEB-INF/packages/nitro/package.json -> symbolic link
 	war/WEB-INF/packages/template/lib -> symbolic link
