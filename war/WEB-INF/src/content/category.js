@@ -15,7 +15,7 @@ var Category = exports.Category = function(term, label, parentKey) {
 	this.label = label;
 }
 
-db.model(Category, "Category", {
+Category.model = new db.Model(Category, "Category", {
 	term: new db.StringProperty(),
 	label: new db.StringProperty()
 });

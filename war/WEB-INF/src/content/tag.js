@@ -8,7 +8,7 @@ var Tag = exports.Tag = function(name) {
 	this.setKey(db.key("Tag", name));
 };
 
-db.model(Tag, "Tag", {
+Tag.model = new db.Model(Tag, "Tag", {
 	name: new db.StringProperty(),
 	count: new db.IntegerProperty()
 });
@@ -28,7 +28,7 @@ var TagRelation = exports.TagRelation = function(tag, target) {
 	));
 }
 
-db.model(TagRelation, "TagRelation", {
+TagRelation.model = new db.Model(TagRelation, "TagRelation", {
 	target: new db.ReferenceProperty(Tag),
 	created: new db.DateTimeProperty()
 });

@@ -16,15 +16,13 @@ var Comment = exports.Comment = function(parentKey, name) {
 	this.setKey(db.key(parentKey, "Comment", keyName));
 }
 
-db.model(Comment, "Comment", {
+Comment.model = new db.Model(Comment, "Comment", {
 	name: new db.StringProperty(),
 	email: new db.EmailProperty(),
 	uri: new db.StringProperty(),
 	content: new db.TextProperty(),
 	created: new db.DateProperty()
 });
-
-Gravatar(Comment);
 
 Comment.prototype.authorLink = function() {
     return '<a href="' + this.uri + '" rel="nofollow">' + this.name + '</a>';
@@ -43,3 +41,5 @@ Comment.validate = function(obj) {
 	
 	return errors;
 }
+
+Gravatar(Comment);

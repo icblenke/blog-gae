@@ -20,15 +20,13 @@ var Article = exports.Article = function(categoryKey, title) {
 	this.commentCount = 0;
 }
 
-db.model(Article, "Article", {
+Article.model = new db.Model(Article, "Article", {
 	title: new db.StringProperty(),
 	content: new db.TextProperty(),
 	created: new db.DateProperty(),
 	updated: new db.DateProperty(),
 	commentCount: new db.IntegerProperty()
-});
-
-Taggable(Article);
+})
 
 Article.prototype.path = function() {
     return "*" + db.keyToString(this.key()) + "/" + seo(this.title);
@@ -37,3 +35,5 @@ Article.prototype.path = function() {
 Article.prototype.toString = function() {
     return this.title;
 }
+
+Taggable(Article);
