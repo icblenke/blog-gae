@@ -1,5 +1,7 @@
 var md5 = require("md5").hash;
 
+var update = require("hash").Hash.update;
+
 /**
  * Generate the gravatar uri.
  * Examples: 
@@ -19,7 +21,9 @@ var gravatarUri = exports.uri = function(email, extra, prefix) {
 *
 * http://www.gravatar.com
 */
-var Gravatar = exports.Gravatar = function() {};
+var Gravatar = exports.Gravatar = function(base) {
+    update(base.prototype, Gravatar.prototype);
+};
 
 Gravatar.prototype.gravatarURI = function() {
     return gravatarUri(this.email);

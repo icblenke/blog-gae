@@ -1,5 +1,7 @@
 var db = require("google/appengine/ext/db");
 
+var update = require("hash").Hash.update;
+
 var Tag = require("./tag").Tag,
 	TagRelation = require("./tag").TagRelation;
 
@@ -14,11 +16,15 @@ var tagStringCleanup = function(tagString) {
 /**
  * The Taggable mixin adds tagging functionality to objects.
  */
-var Taggable = exports.Taggable = function() {};
+var Taggable = exports.Taggable = function(base) {
+    if (!base.model) throw new TypeError("Taggable can only be mixed into model objects");
 
-Taggable.included = function(base) {
-	base.Model.properties.tagString = new db.StringProperty();
-	Object.include(base.prototype, Taggable.prototype);
+    update(base.model.properties, Taggable.properties);
+    update(base.prototype, Taggable.prototype);
+};
+
+Taggable.properties = {
+    tagString: new db.StringProperty()
 }
 
 /**

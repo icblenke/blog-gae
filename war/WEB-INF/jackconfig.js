@@ -1,7 +1,6 @@
 require.paths.unshift("WEB-INF/src");
 
 require("nitro");
-require("oop");
 require("dateutils");
 
 var ContentLength = require("jack/contentlength").ContentLength,

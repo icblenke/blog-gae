@@ -16,8 +16,6 @@ var Comment = exports.Comment = function(parentKey, name) {
 	this.setKey(db.key(parentKey, "Comment", keyName));
 }
 
-Object.include(Comment, Gravatar);
-
 db.model(Comment, "Comment", {
 	name: new db.StringProperty(),
 	email: new db.EmailProperty(),
@@ -25,6 +23,8 @@ db.model(Comment, "Comment", {
 	content: new db.TextProperty(),
 	created: new db.DateProperty()
 });
+
+Gravatar(Comment);
 
 Comment.prototype.authorLink = function() {
     return '<a href="' + this.uri + '" rel="nofollow">' + this.name + '</a>';

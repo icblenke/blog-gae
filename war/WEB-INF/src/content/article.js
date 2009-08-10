@@ -28,7 +28,7 @@ db.model(Article, "Article", {
 	commentCount: new db.IntegerProperty()
 });
 
-Object.include(Article, Taggable);
+Taggable(Article);
 
 Article.prototype.path = function() {
     return "*" + db.keyToString(this.key()) + "/" + seo(this.title);
