@@ -1,7 +1,10 @@
 var db = require("google/appengine/ext/db");
 
-var Paginator = require("nitro/utils/paginator").Paginator,
-	NotFound = require("nitro/exceptions").NotFound;
+var Paginator = require("nitro/utils/paginator").Paginator;
+	
+var response = require("nitro/response"),
+    render = response.render,
+    notFound = response.notFound;
 
 var Article = require("../../content/article").Article,
     Tag = require("../../content/tag").Tag,
@@ -10,10 +13,8 @@ var Article = require("../../content/article").Article,
 exports.GET = function(env) {
     var params = env.request.GET();
 
-    var pg = new Paginator(env, 5);
     var tag = Tag.getByKeyName(params.id);
-    if (!tag) return NotFound("Tag not found");
-    
+    if (!tag) return notFound("Tag not found");    
     
 	var pg = new Paginator(env, 5);
     var articleKeys = pg.limitQuery(TagRelation.all()).ancestor(tag).order("-created").fetch().map(function(tr) {
@@ -34,9 +35,9 @@ exports.GET = function(env) {
     	}
     });
 
-	return {
+	return render({
         tag: tag,
         articles: articles,
         paginator: pg.paginate(articles)
-    };    
+    });    
 }

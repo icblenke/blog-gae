@@ -1,6 +1,6 @@
 var db = require("google/appengine/ext/db");
 
-var redirectToReferrer = require("nitro/response").redirectToReferrer,
+var redirect = require("nitro/response").redirect,
     loadTemplate = require("nitro/template").Template.load;
 
 var Article = require("../content/article").Article,
@@ -37,7 +37,7 @@ exports.POST = function(env) {
         	authorLink: comment.authorLink()
         })]];
     } else {
-        env.request.redirect();
+        return redirect(env.request.referrer());
     }
 }
 

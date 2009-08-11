@@ -3,6 +3,8 @@ var db = require("google/appengine/ext/db");
 var Paginator = require("nitro/utils/paginator").Paginator,
     encode = require("nitro/utils/atom").encode;
 
+var render = require("nitro/response").render;
+
 var Article = require("../content/article").Article,
     Category = require("../content/category").Category;
 
@@ -33,10 +35,10 @@ exports.GET = function(env) {
         	}
         });
 
-    	return {
+    	return render({
             articles: articles,
             paginator: pg.paginate(articles)
-        };
+        });
     }
 }
 
