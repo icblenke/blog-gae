@@ -1,7 +1,7 @@
 var db = require("google/appengine/ext/db");
 
 var update = require("hash").Hash.update,
-    crc32 = require("crc32").encode;
+    crc32 = require("crc32").hash;
 
 var response = require("nitro/response"),
     redirect = response.redirect,
@@ -15,11 +15,12 @@ var Article = require("../content/article").Article,
 exports.GET = function(env) {
     var params = env.request.params();
     var key = params.id.split("/")[0];
-
+print("-------1")
     var article = Article.get(db.stringToKey(key));
     if (!article) throw response.notFound("Article not found");
     
     var etag = crc32(article.updated.toString());
+print("-------2")
 
     if (env["HTTP_IF_NONE_MATCH"] == etag) {
         return notModified();        
@@ -53,7 +54,7 @@ exports.GET = function(env) {
             "Last-Modified": article.updated.toGMTString(),
             "ETag": etag
         })
-        
+   
         return response;
     }
 }

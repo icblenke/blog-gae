@@ -3,6 +3,8 @@ var db = require("google/appengine/ext/db");
 var Article = require("content/article").Article,
     Category = require("content/category").Category;
 
+var render = require("nitro/response").render;
+
 exports.GET = function(env) {
     var params = env.request.params();
     
@@ -16,7 +18,7 @@ exports.GET = function(env) {
         article = new Article();
     }
     
-    var response =  {
+    var response =  render({
         title: article.id ? ("Edit '"+article.title+"'") : "New article",
         article: article,
         categories: categories.fetch().map(function(c) {
@@ -25,7 +27,7 @@ exports.GET = function(env) {
         		label: c.label
         	}
         })
-    }
+    });
     
     if (params.id) response.key = db.keyToString(article.key());
     

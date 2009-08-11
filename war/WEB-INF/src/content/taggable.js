@@ -18,8 +18,7 @@ var tagStringCleanup = function(tagString) {
  */
 var Taggable = exports.Taggable = function(base) {
     if (!base.model) throw new TypeError("Taggable can only be mixed into model objects");
-
-    update(base.model.properties, Taggable.properties);
+    db.copyProperties(base, Taggable.properties);
     update(base.prototype, Taggable.prototype);
 };
 
