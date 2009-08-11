@@ -1,6 +1,7 @@
 var db = require("google/appengine/ext/db");
 
-var update = require("hash").Hash.update;
+var update = require("hash").Hash.update,
+    crc32 = require("crc32").encode;
 
 var response = require("nitro/response"),
     redirect = response.redirect,
@@ -18,20 +19,10 @@ exports.GET = function(env) {
     var article = Article.get(db.stringToKey(key));
     if (!article) throw response.notFound("Article not found");
     
-    var etag = article.updated.format("yymmddHHMMss");
+    var etag = crc32(article.updated.toString());
 
     if (env["HTTP_IF_NONE_MATCH"] == etag) {
-        var response = notModified();
-
-        update(response[1], {
-//          "X-Cache": "HIT",
-//          "X-Cache-Lookup": "HIT",
-            "Cache-Control": "public; must-revalidate",
-            "Last-Modified": article.updated.toGMTString(),
-            "ETag": etag
-        })
-
-        return response;                
+        return notModified();        
     } else {
 		var category = article.parent();
 
