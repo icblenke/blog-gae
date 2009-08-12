@@ -15,12 +15,12 @@ var Article = require("../content/article").Article,
 exports.GET = function(env) {
     var params = env.request.params();
     var key = params.id.split("/")[0];
-print("-------1")
+
     var article = Article.get(db.stringToKey(key));
     if (!article) throw response.notFound("Article not found");
     
-    var etag = crc32(article.updated.toString());
-print("-------2")
+    var etag = crc32(article.updated.toString()).toString();
+
 
     if (env["HTTP_IF_NONE_MATCH"] == etag) {
         return notModified();        
@@ -54,7 +54,7 @@ print("-------2")
             "Last-Modified": article.updated.toGMTString(),
             "ETag": etag
         })
-   
+
         return response;
     }
 }
