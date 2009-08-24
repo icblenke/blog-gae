@@ -5,13 +5,17 @@ var db = require("google/appengine/ext/db");
 var Tag = exports.Tag = function(name) {
 	this.name = name;
 	this.count = 0;
-	this.setKey(db.key("Tag", name));
+	this.__key__ = Tag.key("Tag", name);
 };
 
 Tag.model = new db.Model(Tag, "Tag", {
 	name: new db.StringProperty(),
 	count: new db.IntegerProperty()
 });
+
+Tag.key = function(obj) {
+    return db.key("Tag", obj.name);
+}
 
 Tag.prototype.toString = function() {
     return this.name;

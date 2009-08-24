@@ -21,7 +21,7 @@ exports.GET = function(env) {
     } else {
     	var pg = new Paginator(env, 5);
     	var articles = pg.limitQuery(Article.all().order("-created")).fetch().map(function(a) {
-    		var category = a.parent();
+    		var category = Category.get(a.category);
         	return {
         		key: db.keyToString(a.key()),
         		path: a.path(),

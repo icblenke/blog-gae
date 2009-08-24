@@ -15,11 +15,11 @@ exports.POST = function(env) {
     if (params.key) { // Update an existing object.
     	article = Article.get(db.stringtoKey(params.key));
     } else { // Insert a new object.
-    	var category = Category.get(db.stringToKey(params.categoryKey));
-    	if (!category) return notFound("Category not found");
-        article = new Article(category.key(), params.title);
+        article = new Article(params.title);
     }
 
+    article.title = params.title;
+    article.category = db.stringToKey(params.categoryKey);
     article.content = markup(params.content);
     article.created = article.updated = new Date();
     article.updateTags(params.tagString);

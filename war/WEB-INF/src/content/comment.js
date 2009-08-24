@@ -9,11 +9,11 @@ var VALID_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 /**
  * An unclaimed comment.
  */
-var Comment = exports.Comment = function(parentKey, name) {
-	this.name = name;
+var Comment = exports.Comment = function(parentOrKey, content) {
+    this.content = content;
 	this.created = new Date();
-	var keyName = "c" + crc32(name + this.created.getTime());
-	this.setKey(db.key(parentKey, "Comment", keyName));
+	this.parentKey = db.resolveKey(parentOrKey);
+	this.__key__ = Comment.key(this);
 }
 
 Comment.model = new db.Model(Comment, "Comment", {
@@ -24,6 +24,10 @@ Comment.model = new db.Model(Comment, "Comment", {
 	created: new db.DateProperty()
 });
 
+Comment.key = function(obj) {
+	return db.key(obj.parentKey, "Comment", "c" + crc32(obj.name + obj.created.getTime()));
+}
+
 Comment.prototype.authorLink = function() {
     return '<a href="' + this.uri + '" rel="nofollow">' + this.name + '</a>';
 }
@@ -31,12 +35,12 @@ Comment.prototype.authorLink = function() {
 Comment.validate = function(obj) {
     var errors = {};
     
-    if ((!obj.authorName) || (obj.name.length < 3)) {
-        errors.authorName = "Invalid author name";
+    if ((!obj.name) || (obj.name.length < 3)) {
+        errors.name = "Invalid author name";
     }
     
-	if (!VALID_EMAIL_RE.test(obj.authorEmail)) {
-		errors.authorEmail = "Invalid author email";
+	if (!VALID_EMAIL_RE.test(obj.email)) {
+		errors.email = "Invalid author email";
 	} 
 	
 	return errors;
