@@ -9,14 +9,14 @@ var ContentLength = require("jack/contentlength").ContentLength,
     Lint = require("jack/lint").Lint; 
         
 var Dispatch = require("nitro/dispatch").Dispatch,
-	Normalize = require("nitro/normalize").Normalize,
-	Errors = require("nitro/errors").Errors,
-	SessionManager = require("nitro/sessionmanager").SessionManager,
-	Render = require("nitro/render").Render;
+    Normalize = require("nitro/normalize").Normalize,
+    Errors = require("nitro/errors").Errors,
+    SessionManager = require("nitro/sessionmanager").SessionManager,
+    Render = require("nitro/render").Render;
 		
 var Wrap = require("./src/wrap").Wrap;
 
-CONFIG.root = "WEB-INF/src/root";
+CONFIG.appRoot = "WEB-INF/src/apps";
 CONFIG.templateRoot = "WEB-INF/src/templates";
 
 // The application.
