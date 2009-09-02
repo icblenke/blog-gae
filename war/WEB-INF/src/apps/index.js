@@ -7,13 +7,15 @@ var Article = require("../content/article").Article,
     Category = require("../content/category").Category;
 
 exports.GET = function(env) {
-    if ("application/atom+xml" == env["CONTENT_TYPE"]) {
+    if ("/index.atom" == env["PATH_INFO"]) {
         var articles = Article.all().order("-created").limit(10).fetch();
 
-        return {body: [encode(articles, {
+        var base = "http://" + env["SERVER_NAME"] + (env["SERVER_PORT"] == "80" ? "" : ":" + env["SERVER_PORT"]);
+        
+        return {status: 200, headers: {"Content-Type": "text/atom"}, body: [encode(articles, {
 		    title: "Blog example",
-		    base: "http://localhost:8080",
-		    self: "http://localhost:8080/index.atom",
+		    base: base,
+		    self: base+ "/index.atom",
 		    updated: articles[0].created
 	    })]};
     } else {
