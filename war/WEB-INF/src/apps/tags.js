@@ -1,8 +1,6 @@
 var db = require("google/appengine/ext/db");
 
-var response = require("nitro/response"),
-    render = response.render,
-    notFound = response.notFound;
+var notFound = require("nitro/responses").notFound;
 
 var Tag = require("../content/tag").Tag;
 
@@ -26,11 +24,11 @@ exports.GET = function(env) {
             cloud.push('<a href="/tags/*' + t.name + '" style="font-size: ' + size + 'em">' + t.name + '</a>');
         }
         
-        return render({
+        return {data: {
             windowTitle: "Tags",
             tags: cloud.join(" "),
             maxSize: maxSize
-        });
+        }};
     } else
         return notFound("No tags found");
 }

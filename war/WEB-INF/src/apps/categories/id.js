@@ -1,15 +1,15 @@
 var db = require("google/appengine/ext/db");
 
 var Paginator = require("nitro/utils/paginator").Paginator,
-	notFound = require("nitro/response").notFound;
+	notFound = require("nitro/responses").notFound;
 
-var Article = require("../../content/article").Article,
-    Category = require("../../content/category").Category;
+var Article = require("content/article").Article,
+    Category = require("content/category").Category;
 
-var render = require("nitro/response").render;
+var Request = require("jack/request").Request;
     
 exports.GET = function(env) {
-    var params = env.request.params();
+    var params = new Request(env).GET();
 
     var category = Category.getByKeyName(params.id);
     if (!category) return notFound("Category not found");
@@ -17,7 +17,7 @@ exports.GET = function(env) {
     var pg = new Paginator(env, 5);
     var articles = Article.all().ancestor(category).order("-created");
     
-    return render({
+    return {data: {
         category: category,
         articles: articles.fetch().map(function(a) {
         	return {
@@ -33,5 +33,5 @@ exports.GET = function(env) {
         	}
         }),
         paginator: pg.paginate(articles)
-    });
+    }};
 }
