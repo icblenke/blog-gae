@@ -27,7 +27,7 @@ $(document).bind("ready", function() {
 {.end script}
 
 {.block content}
-{.with article}
+{.section article}
 <section class="main hfeed">
 
 {.include "/article.inc.html"}
@@ -35,7 +35,7 @@ $(document).bind("ready", function() {
 <h3 id="comments">{commentsCount} Comments</h3>
 
 <section id="commentList" class="comments">
-{.with comments}
+{.repeated section comments}
     {.include "/comments/comment.inc.html"}
 {.end}
 <p class="clear" />

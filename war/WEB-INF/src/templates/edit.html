@@ -1,29 +1,29 @@
 {.extends "/layout/page.html"}
 
 {.block breadcrumbs}
-    <a href="/">Home</a> / {title}
+<a href="/">Home</a> / <b>{title}</b>
 {.end breadcrumbs}
 
 {.block head}
-    <link rel="stylesheet" href="/jquery.autocomplete.css" type="text/css" />
+<link rel="stylesheet" href="/jquery.autocomplete.css" type="text/css" />
 {.end head}
 
 {.block scripts}
-    <script href="/jquery.autocomplete.js"></script>
+<script href="/jquery.autocomplete.js"></script>
 {.end scripts}
 
 {.block script}
-    $(document).bind("ready", function() {
-        $("#tagString").autocomplete("/tags/autocomplete.txt", { 
-            multiple: true, 
-            autoFill: true 
-        });
+$(document).bind("ready", function() {
+    $("#tagString").autocomplete("/tags/autocomplete.txt", { 
+        multiple: true, 
+        autoFill: true 
     });
+});
 {.end script}
 
 {.block content}
 <form method="POST" action="/articles">
-    {.if key}
+    {.section key}
     <input type="hidden" name="key" value="{key}" />
     {.end}
     <fieldset>
@@ -40,7 +40,7 @@
             <li>
                 <label for="categoryKey">Category</label>
                 <select name="categoryKey">
-                    {.with categories}
+                    {.repeated section categories}
                     <option value="{key}">{label}</option>
                     {.end}
                 </select>
