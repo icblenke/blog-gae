@@ -1,4 +1,8 @@
-require.paths.unshift("./src");
+var root = system.fs.dirname(module.path),
+    appsRoot = system.fs.join(root, "src/apps"),
+    templatesRoot = system.fs.join(root, "src/templates");
+
+require.paths.unshift(system.fs.join(root, "src"));
 
 require("dateutils");
 
@@ -16,16 +20,13 @@ var Dispatch = require("nitro/dispatch").Dispatch,
     
 var Wrap = require("./src/wrap").Wrap;
 
-var fs = require("file"),
-    root = fs.dirname(module.path),
-    appsRoot = fs.join(root, "src/apps"),
-    templatesRoot = fs.join(root, "src/templates");
+var dsadminApp = require("./packages/appengine-dsadmin/war/WEB-INF/jackconfig").core;
 
 // The application.
 exports.app = ContentLength(MethodOverride(SessionManager(
     Cascade([
         Path(Render(Errors(Wrap(Dispatch(appsRoot))), templatesRoot)),
-        Path(require("./packages/dbadmin/war/WEB-INF/jackconfig").core, "/admin")
+        Path(dsadminApp, "/admin")
     ])
 , "sessionsecret")));
 

@@ -26,6 +26,7 @@ This example depends on several Narwhal (www.narwhaljs.org) packages:
 * jack
 * nitro
 * appengine
+* appengine-dsadmin
 * template
 
 At the moment, customized versions of Narwhal and Jack are required. Please get patched versions from:
@@ -50,6 +51,9 @@ Until we have an automated setup script you have to manually setup the packages 
 	war/WEB-INF/packages/nitro/package.json -> symbolic link
 	war/WEB-INF/packages/template/lib -> symbolic link
 	war/WEB-INF/packages/template/package.json -> symbolic link
+	war/WEB-INF/packages/appengine-dsadmin/package.json -> symbolic link
+	war/WEB-INF/packages/appengine-dsadmin/war -> symbolic link
+    war/admin -> war/WEB-INF/packages/appengine-dsadmin/war
 
 You may wish to edit build.xml (for example to point sdk.dir to the directory where the
 appengine-java-sdk resides)
