@@ -1,26 +1,35 @@
-require.paths.unshift("WEB-INF/src");
+require.paths.unshift("./src");
 
-require("nitro");
 require("dateutils");
 
 var ContentLength = require("jack/contentlength").ContentLength,
     MethodOverride = require("jack/methodoverride").MethodOverride,
     ShowExceptions = require("jack/showexceptions").ShowExceptions,
+    Cascade = require("jack/cascade").Cascade,
     Lint = require("jack/lint").Lint; 
         
 var Dispatch = require("nitro/dispatch").Dispatch,
-    Normalize = require("nitro/normalize").Normalize,
+    Path = require("nitro/path").Path,
     Errors = require("nitro/errors").Errors,
     SessionManager = require("nitro/sessionmanager").SessionManager,
-    Render = require("nitro/render").Render;
-		
+    Render = require("nitro/render").Render;		
+    
 var Wrap = require("./src/wrap").Wrap;
 
-CONFIG.appRoot = "WEB-INF/src/apps";
-CONFIG.templateRoot = "WEB-INF/src/templates";
+var fs = require("file"),
+    root = fs.dirname(module.path),
+    appsRoot = fs.join(root, "src/apps"),
+    templatesRoot = fs.join(root, "src/templates");
 
 // The application.
-exports.app = ContentLength(MethodOverride(Normalize(Errors(SessionManager(Render(Wrap(Dispatch())), "sessionsecret")))));
+exports.app = ContentLength(MethodOverride(SessionManager(
+    Cascade([
+        Path(Render(Errors(Wrap(Dispatch(appsRoot))), templatesRoot)),
+        Path(require("./packages/dbadmin/war/WEB-INF/jackconfig").core, "/admin")
+    ])
+, "sessionsecret")));
+
+// Debug version of the application.
 exports.debug = ShowExceptions(exports.app);
 
 // Run on development server.
