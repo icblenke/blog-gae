@@ -4,8 +4,6 @@ var root = system.fs.dirname(module.path),
 
 require.paths.unshift(system.fs.join(root, "src"));
 
-require("dateutils");
-
 var ContentLength = require("jack/contentlength").ContentLength,
     MethodOverride = require("jack/methodoverride").MethodOverride,
     ShowExceptions = require("jack/showexceptions").ShowExceptions,
@@ -18,6 +16,8 @@ var Dispatch = require("nitro/dispatch").Dispatch,
     SessionManager = require("nitro/sessionmanager").SessionManager,
     Render = require("nitro/render").Render;		
     
+require("./src/dateutils");
+
 var Wrap = require("./src/wrap").Wrap;
 
 var dsadminApp = require("./packages/appengine-dsadmin/war/WEB-INF/jackconfig").core;
