@@ -2,13 +2,9 @@ var db = require("google/appengine/ext/db");
 
 var crc32 = require("crc32").hash;
 
-var Request = require("jack/request").Request,
-    Response = require("jack/response").Response;
+var Request = require("nitro/request").Request,
+    Response = require("nitro/response").Response;
 
-var responses = require("nitro/responses"),
-    notFound = responses.notFound,
-    notModified = responses.notModified;
-        
 var Article = require("content/article").Article,
     Comment = require("content/comment").Comment;
     
@@ -17,14 +13,14 @@ exports.GET = function(env) {
     var key = params.id.split("/")[0];
 
     var article = Article.get(db.stringToKey(key));
-    if (!article) throw notFound("Article not found");
+    if (!article) throw Response.notFound("Article not found");
     
     var etag = crc32(article.updated.toString()).toString();
 
     if (env["HTTP_IF_NONE_MATCH"] == etag) {
-        return notModified();        
+        return Response.notModified();        
     } else {
-		var category = article.parent();
+	var category = article.parent();
 
         return {
             headers: {

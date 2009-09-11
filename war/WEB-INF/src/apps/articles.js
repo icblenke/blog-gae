@@ -1,10 +1,9 @@
 var db = require("google/appengine/ext/db");
 
-var notFound = require("nitro/responses").notFound,
-    redirect = require("jack/response").Response.redirect;
-    
+var redirect = require("nitro/response").Response.redirect;
+
 var Article = require("content/article").Article,
-	Category = require("content/category").Category,
+    Category = require("content/category").Category,
     markup = require("content/markup").markup;
 
 exports.POST = function(env) {
@@ -25,6 +24,6 @@ exports.POST = function(env) {
     article.updateTags(params.tagString);
     db.put(article);
     
-	return redirect("/");
+    return redirect("/");
 }
 
