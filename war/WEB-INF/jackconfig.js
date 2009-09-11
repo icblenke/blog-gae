@@ -7,7 +7,6 @@ require.paths.unshift(system.fs.join(root, "src"));
 var ContentLength = require("jack/contentlength").ContentLength,
     MethodOverride = require("jack/methodoverride").MethodOverride,
     ShowExceptions = require("jack/showexceptions").ShowExceptions,
-    Cascade = require("jack/cascade").Cascade,
     Lint = require("jack/lint").Lint; 
         
 var Dispatch = require("nitro/dispatch").Dispatch,
@@ -20,15 +19,8 @@ require("./src/dateutils");
 
 var Wrap = require("./src/wrap").Wrap;
 
-var dsadminApp = require("./packages/appengine-dsadmin/war/WEB-INF/jackconfig").core;
-
 // The application.
-exports.app = ContentLength(MethodOverride(SessionManager(
-    Cascade([
-        Path(Render(Errors(Wrap(Dispatch(appsRoot))), templatesRoot)),
-        Path(dsadminApp, "/admin")
-    ])
-, "sessionsecret")));
+exports.app = ContentLength(MethodOverride(SessionManager(Path(Render(Errors(Wrap(Dispatch(appsRoot))), templatesRoot)), "sessionsecret")));
 
 // Debug version of the application.
 exports.debug = ShowExceptions(exports.app);
