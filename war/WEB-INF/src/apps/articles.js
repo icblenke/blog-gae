@@ -1,13 +1,14 @@
 var db = require("google/appengine/ext/db");
 
-var redirect = require("nitro/response").Response.redirect;
+var Request = require("nitro/request").Request,
+    redirect = require("nitro/response").Response.redirect;
 
 var Article = require("content/article").Article,
     Category = require("content/category").Category,
     markup = require("content/markup").markup;
 
 exports.POST = function(env) {
-    var params = env.request.params();
+    var params = new Request(env).params();
     
     var article;
     

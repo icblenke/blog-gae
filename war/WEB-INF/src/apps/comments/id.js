@@ -1,12 +1,13 @@
 var db = require("google/appengine/ext/db");
 
-var redirect = require("jack/response").Response.redirect;
+var Request = require("nitro/request").Request,
+    redirect = require("nitro/response").Response.redirect;
 
 var Comment = require("content/comment").Comment,
     Article = require("content/article").Article;
     
 exports.DELETE = function(env) {
-    var params = env.request.GET();
+    var params = new Request(env).params();
 
     var comment = Comment.get(db.stringToKey(params.id));
     

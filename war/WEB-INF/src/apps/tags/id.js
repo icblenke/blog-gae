@@ -2,14 +2,15 @@ var db = require("google/appengine/ext/db");
 
 var Paginator = require("nitro/utils/paginator").Paginator;
 	
-var Response = require("nitro/response").Response;
+var Request = require("nitro/request").Request,
+    Response = require("nitro/response").Response;
 
 var Article = require("../../content/article").Article,
     Tag = require("../../content/tag").Tag,
     TagRelation = require("../../content/tag").TagRelation;
     
 exports.GET = function(env) {
-    var params = env.request.GET();
+    var params = new Request(env).params();
 
     var tag = Tag.getByKeyName(params.id);
     if (!tag) return Response.notFound("Tag not found");    

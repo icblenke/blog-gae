@@ -1,16 +1,17 @@
 var db = require("google/appengine/ext/db");
 
-var redirect = require("nitro/response").redirect,
+var Request = require("nitro/request").Request,
+    redirect = require("nitro/response").Response.redirect,
     loadTemplate = require("nitro/template").Template.load;
 
 var Article = require("../content/article").Article,
-	Comment = require("../content/comment").Comment,
+    Comment = require("../content/comment").Comment,
     markup = require("../content/markup").markup;
 
 var template;
 
 exports.POST = function(env) {
-	var params = env.request.POST();
+	var params = new Request(env).params();
 	
 	var article = Article.get(db.stringToKey(params.parentKey));
 
@@ -37,7 +38,7 @@ exports.POST = function(env) {
         	authorLink: comment.authorLink()
         })]];
     } else {
-        return redirect(env.request.referrer());
+        return redirect(request.referrer());
     }
 }
 

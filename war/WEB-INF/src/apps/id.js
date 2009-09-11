@@ -9,8 +9,8 @@ var Article = require("content/article").Article,
     Comment = require("content/comment").Comment;
     
 exports.GET = function(env) {
-    var params = new Request(env).GET();
-    var key = params.id.split("/")[0];
+    var params = new Request(env).params(),
+        key = params.id.split("/")[0];
 
     var article = Article.get(db.stringToKey(key));
     if (!article) throw Response.notFound("Article not found");
@@ -54,9 +54,12 @@ exports.GET = function(env) {
 }
 
 exports.DELETE = function(env) {
-    var params = env.request.GET();
+    var request = new Request(env),
+        params = request.params();
+
     var key = params.id.split("/")[0];
+
     db.remove(db.stringToKey(key));
  
-    return Response.redirect(env.request.referrer());
+    return Response.redirect(request.referrer());
 }
