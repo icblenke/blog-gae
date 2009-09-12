@@ -1,8 +1,11 @@
 var db = require("google/appengine/ext/db"),
     memcache = require("google/appengine/api/memcache");
 
-var Category = require("./content/category").Category,
-    Comment = require("./content/comment").Comment;
+var Category = require("content/category").Category,
+    Comment = require("content/comment").Comment;
+
+var Template = require("template").Template,
+    asideTemplate = new Template(system.fs.Path(module.path).resolve("templates/aside.inc.html").read());
 
 exports.Wrap = function(app) {
 
@@ -15,8 +18,7 @@ exports.Wrap = function(app) {
             
             var aside = memcache.get("aside");                
             if (!aside) {
-                template = env["nitro.template_manager"].load("/aside.inc.html");
-                aside = template.render({ 
+                aside = asideTemplate.render({ 
                     categories: Category.all().fetch(),
                     comments: Comment.all().order("-created").limit(5)
                 });      

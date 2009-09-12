@@ -7,14 +7,14 @@
     
     <h2>Categories</h2>
     <ul>
-        {.with categories}
+        {.repeated section categories}
         <li><a href="/categories/*{term}">{label}</a></li>
         {.end}
     </ul>
 
     <h2>Latest comments</h2>
     <ul>
-        {.with comments}
+        {.repeated section comments}
         <li>{name} on <a href="/*">{name}</a></li>
         {.end}
     </ul>

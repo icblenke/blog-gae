@@ -15,7 +15,7 @@ exports.GET = function(env) {
     if (!category) return Response.notFound("Category not found");
     
     var pg = new Paginator(env, 5);
-    var articles = Article.all().ancestor(category).order("-created");
+    var articles = Article.all().filter("category =", category).order("-created");
     
     return {data: {
         category: category,

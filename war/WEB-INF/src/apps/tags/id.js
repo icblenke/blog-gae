@@ -5,9 +5,10 @@ var Paginator = require("nitro/utils/paginator").Paginator;
 var Request = require("nitro/request").Request,
     Response = require("nitro/response").Response;
 
-var Article = require("../../content/article").Article,
-    Tag = require("../../content/tag").Tag,
-    TagRelation = require("../../content/tag").TagRelation;
+var Article = require("content/article").Article,
+    Category = require("content/category").Category,
+    Tag = require("content/tag").Tag,
+    TagRelation = require("content/tag").TagRelation;
     
 exports.GET = function(env) {
     var params = new Request(env).params();
@@ -21,7 +22,7 @@ exports.GET = function(env) {
     });
     
     var articles = db.get(articleKeys).map(function(a) {
-		var category = a.parent();
+		var category = Category.get(a.category);
     	return {
     		key: db.keyToString(a.key()),
     		path: a.path(),

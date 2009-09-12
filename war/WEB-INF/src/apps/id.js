@@ -6,6 +6,7 @@ var Request = require("nitro/request").Request,
     Response = require("nitro/response").Response;
 
 var Article = require("content/article").Article,
+    Category = require("content/category").Category,
     Comment = require("content/comment").Comment;
     
 exports.GET = function(env) {
@@ -20,7 +21,7 @@ exports.GET = function(env) {
     if (env["HTTP_IF_NONE_MATCH"] == etag) {
         return Response.notModified();        
     } else {
-	var category = article.parent();
+    	var category = Category.get(article.category);
 
         return {
             headers: {
