@@ -1,8 +1,4 @@
-var root = system.fs.dirname(module.path),
-    appsRoot = system.fs.join(root, "src/apps"),
-    templatesRoot = system.fs.join(root, "src/templates");
-
-require.paths.unshift(system.fs.join(root, "src"));
+require.paths.unshift("WEB-INF/src");
 
 var ContentLength = require("jack/contentlength").ContentLength,
     MethodOverride = require("jack/methodoverride").MethodOverride,
@@ -18,6 +14,9 @@ var Dispatch = require("nitro/dispatch").Dispatch,
 require("./src/dateutils");
 
 var Wrap = require("./src/wrap").Wrap;
+
+var appsRoot = "WEB-INF/src/apps",
+    templatesRoot = "WEB-INF/src/templates";
 
 // The application.
 exports.app = ContentLength(MethodOverride(SessionManager(Path(Render(Errors(Wrap(Dispatch(appsRoot))), templatesRoot)), "sessionsecret")));

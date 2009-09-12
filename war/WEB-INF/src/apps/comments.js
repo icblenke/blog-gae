@@ -4,9 +4,9 @@ var Request = require("nitro/request").Request,
     redirect = require("nitro/response").Response.redirect,
     loadTemplate = require("nitro/template").Template.load;
 
-var Article = require("../content/article").Article,
-    Comment = require("../content/comment").Comment,
-    markup = require("../content/markup").markup;
+var Article = require("content/article").Article,
+    Comment = require("content/comment").Comment,
+    markup = require("content/markup").markup;
 
 var Template = require("template").Template,
     template = new Template(system.fs.Path(module.path).resolve("../../templates/comments/comment.inc.html").read());
