@@ -13,7 +13,7 @@ exports.POST = function(env) {
     var article;
     
     if (params.key) { // Update an existing object.
-    	article = Article.get(new db.Key(params.key));
+    	article = Article.get(params.key);
     } else { // Insert a new object.
         article = new Article(params.title);
     }
@@ -23,7 +23,7 @@ exports.POST = function(env) {
     article.content = markup(params.content);
     article.created = article.updated = new Date();
     article.updateTags(params.tagString);
-    db.put(article);
+    article.put();
     
     return redirect("/");
 }

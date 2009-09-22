@@ -1,5 +1,3 @@
-var db = require("google/appengine/ext/db");
-
 var Article = require("content/article").Article,
     Category = require("content/category").Category;
 
@@ -13,7 +11,7 @@ exports.GET = function(env) {
     var categories = Category.all();
     
     if (params.id) {
-    	article = Article.get(new db.Key(params.id));
+    	article = Article.get(params.id);
     	if (!article) return Response.notFound("Article not found");
     } else {
         article = new Article();

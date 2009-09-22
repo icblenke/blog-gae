@@ -1,8 +1,6 @@
-var db = require("google/appengine/ext/db");
-
 var Request = require("nitro/request").Request;
 
-var Tag = require("../../content/tag").Tag;
+var Tag = require("content/tag").Tag;
 
 exports.GET = function(env) {
     var params = new Request(env).params();
@@ -13,5 +11,5 @@ exports.GET = function(env) {
     for (var i in tags)
         res.push(tags[i].name);
         
-    return [200, {}, [res.join("\n")]];
+    return {body: [res.join("\n")]};
 }

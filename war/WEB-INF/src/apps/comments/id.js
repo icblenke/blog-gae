@@ -9,7 +9,7 @@ var Comment = require("content/comment").Comment,
 exports.DELETE = function(env) {
     var params = new Request(env).params();
 
-    var comment = Comment.get(new db.Key(params.id));
+    var comment = Comment.get(params.id);
     
     db.runInTransaction(function() {
         var article = comment.parent();
