@@ -24,7 +24,7 @@ exports.GET = function(env) {
     var articles = db.get(articleKeys).map(function(a) {
 		var category = Category.get(a.category);
     	return {
-    		key: db.keyToString(a.key()),
+    		key: a.key().toString(),
     		path: a.path(),
     		title: a.title,
     		content: a.content,

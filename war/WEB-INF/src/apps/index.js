@@ -1,10 +1,8 @@
-var db = require("google/appengine/ext/db");
-
 var Paginator = require("nitro/utils/paginator").Paginator,
     encode = require("nitro/utils/atom").encode;
 
-var Article = require("../content/article").Article,
-    Category = require("../content/category").Category;
+var Article = require("content/article").Article,
+    Category = require("content/category").Category;
 
 exports.GET = function(env) {
     if ("/index.atom" == env["PATH_INFO"]) {
@@ -23,7 +21,7 @@ exports.GET = function(env) {
     	var articles = pg.limitQuery(Article.all().order("-created")).fetch().map(function(a) {
     		var category = Category.get(a.category);
         	return {
-        		key: db.keyToString(a.key()),
+        		key: a.key().toString(),
         		path: a.path(),
         		title: a.title,
         		content: a.content,

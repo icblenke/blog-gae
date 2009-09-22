@@ -25,7 +25,7 @@ Comment.model = new db.Model(Comment, "Comment", {
 });
 
 Comment.key = function(obj) {
-	return db.key(obj.parentKey, "Comment", "c" + crc32(obj.name + obj.created.getTime()));
+	return db.key(obj.parentKey, "Comment", "c" + crc32(utf8(obj.name + obj.created.getTime())));
 }
 
 Comment.prototype.authorLink = function() {

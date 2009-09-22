@@ -17,10 +17,14 @@ var tagStringCleanup = function(tagString) {
  * The Taggable mixin adds tagging functionality to objects.
  */
 var Taggable = exports.Taggable = function(base) {
+    Taggable.extend(base);
+};
+
+Taggable.extend = function(base) {
     if (!base.model) throw new TypeError("Taggable can only be mixed into model objects");
     db.copyProperties(base, Taggable.properties);
     update(base.prototype, Taggable.prototype);
-};
+}
 
 Taggable.properties = {
     tagString: new db.StringProperty()

@@ -13,7 +13,7 @@ exports.GET = function(env) {
     var categories = Category.all();
     
     if (params.id) {
-    	article = Article.get(db.stringToKey(params.id));
+    	article = Article.get(new db.Key(params.id));
     	if (!article) return Response.notFound("Article not found");
     } else {
         article = new Article();
@@ -24,13 +24,13 @@ exports.GET = function(env) {
         article: article,
         categories: categories.fetch().map(function(c) {
         	return {
-        		key: db.keyToString(c.key()), 
+        		key: c.key(), 
         		label: c.label
         	}
         })
     }};
     
-    if (params.id) response.data.key = db.keyToString(article.key());
+    if (params.id) response.data.key = article.key();
     
     return response;
 }

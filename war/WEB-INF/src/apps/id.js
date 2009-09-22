@@ -13,7 +13,7 @@ exports.GET = function(env) {
     var params = new Request(env).params(),
         key = params.id.split("/")[0];
 
-    var article = Article.get(db.stringToKey(key));
+    var article = Article.get(new db.Key(key));
     if (!article) throw Response.notFound("Article not found");
     
     var etag = crc32(article.updated.toString()).toString();
@@ -31,7 +31,7 @@ exports.GET = function(env) {
             }, 
             data: {
                 article: {
-                	key: db.keyToString(article.key()),
+                	key: article.key().toString(),
             		title: article.title,
                 	content: article.content,
                 	created: article.created.format("mm/dd/yyyy"),
@@ -39,7 +39,7 @@ exports.GET = function(env) {
                 	categoryLabel: category.label,
 	                comments: Comment.all().ancestor(article).fetch().map(function(c) {
 	                	return {
-	                	    key: db.keyToString(c.key()),
+	                	    key: c.key().toString(),
 		                	content: c.content,
 		                	created: c.created.format("dd/mm/yyyy HH:MM:ss"),
 		                	gravatarURI: c.gravatarURI(),
@@ -60,7 +60,7 @@ exports.DELETE = function(env) {
 
     var key = params.id.split("/")[0];
 
-    db.remove(db.stringToKey(key));
+    db.remove(new db.Key(key));
  
     return Response.redirect(request.referrer());
 }

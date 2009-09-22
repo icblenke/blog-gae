@@ -1,8 +1,6 @@
-var Markup = exports.Markup = {};
-
-exports.markup = Markup.encode = function(src) {
+exports.markup = exports.encode = function(src) {
     return src.replace(/\n/g, "<br />");
 }
 
-Markup.decode = function(src) {
+exports.decode = function(src) {
 }

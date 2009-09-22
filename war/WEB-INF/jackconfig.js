@@ -11,6 +11,7 @@ var Dispatch = require("nitro/dispatch").Dispatch,
     SessionManager = require("nitro/sessionmanager").SessionManager,
     Render = require("nitro/render").Render;		
     
+require("./src/custom");
 require("./src/dateutils");
 
 var Wrap = require("./src/wrap").Wrap;

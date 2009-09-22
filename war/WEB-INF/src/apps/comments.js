@@ -13,7 +13,7 @@ var Template = require("template").Template,
 
 exports.POST = function(env) {
 	var params = new Request(env).params();
-	var article = Article.get(db.stringToKey(params.parentKey));
+	var article = Article.get(new db.Key(params.parentKey));
 
 	var comment = new Comment(article.key(), params.name);
 	comment.email = params.email;

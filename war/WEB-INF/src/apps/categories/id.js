@@ -1,5 +1,3 @@
-var db = require("google/appengine/ext/db");
-
 var Paginator = require("nitro/utils/paginator").Paginator;
 
 var Article = require("content/article").Article,
@@ -21,7 +19,7 @@ exports.GET = function(env) {
         category: category,
         articles: articles.fetch().map(function(a) {
         	return {
-        		key: db.keyToString(a.key()),
+        		key: a.key().toString(),
         		path: a.path(),
         		title: a.title,
         		content: a.content,

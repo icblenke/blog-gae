@@ -13,13 +13,13 @@ exports.POST = function(env) {
     var article;
     
     if (params.key) { // Update an existing object.
-    	article = Article.get(db.stringtoKey(params.key));
+    	article = Article.get(new db.Key(params.key));
     } else { // Insert a new object.
         article = new Article(params.title);
     }
 
     article.title = params.title;
-    article.category = db.stringToKey(params.categoryKey);
+    article.category = new db.Key(params.categoryKey);
     article.content = markup(params.content);
     article.created = article.updated = new Date();
     article.updateTags(params.tagString);

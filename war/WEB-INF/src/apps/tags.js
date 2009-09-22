@@ -1,5 +1,3 @@
-var db = require("google/appengine/ext/db");
-
 var Response = require("nitro/response").Response;
 
 var Tag = require("../content/tag").Tag;
@@ -29,6 +27,7 @@ exports.GET = function(env) {
             tags: cloud.join(" "),
             maxSize: maxSize
         }};
-    } else
+    } else {
         return Response.notFound("No tags found");
+    }
 }
