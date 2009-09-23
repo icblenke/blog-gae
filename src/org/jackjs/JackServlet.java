@@ -23,7 +23,6 @@ public class JackServlet extends HttpServlet {
 		final String environmentName = getInitParam(config, "environment", null);
 		final int optimizationLevel = Integer.parseInt(getInitParam(config, "optimizationLevel", "9"));
     	
-//		final String narwhalHome = getServletContext().getRealPath("WEB-INF/narwhal");
 		final String narwhalHome = getServletContext().getRealPath("WEB-INF/packages/narwhal");
 		final String narwhalFilename = "engines/rhino/bootstrap.js";
 		
@@ -37,6 +36,9 @@ public class JackServlet extends HttpServlet {
 			
 			// load Narwhal
 			context.evaluateReader(scope, new FileReader(narwhalHome+"/"+narwhalFilename), narwhalFilename, 1, null);
+
+            // WARN: set optimization level after bootstraping!
+			context.setOptimizationLevel(optimizationLevel);
 			
 			// load Servlet handler "process" method
 			handler = (Function)context.evaluateString(scope, "require('jack/handler/servlet').Servlet.process;", null, 1, null);
