@@ -6,7 +6,7 @@ var db = require("google/appengine/ext/db");
 var Category = exports.Category = function(term, label, category) {
 	this.term = term;
 	this.label = label;
-	this.category = category.key();
+	if (category) this.category = category.key();
 	this.__key__ = db.key({kind: this.constructor.kind(), name: term});
 }
 
