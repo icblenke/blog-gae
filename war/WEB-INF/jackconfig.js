@@ -3,12 +3,12 @@ require.paths.unshift("WEB-INF/src");
 var ContentLength = require("jack/contentlength").ContentLength,
     MethodOverride = require("jack/methodoverride").MethodOverride,
     ShowExceptions = require("jack/showexceptions").ShowExceptions,
+    CookieSessions = require("jack/session/cookie").Cookie,
     Lint = require("jack/lint").Lint; 
         
 var Dispatch = require("nitro/dispatch").Dispatch,
     Path = require("nitro/path").Path,
     Errors = require("nitro/errors").Errors,
-    SessionManager = require("nitro/sessionmanager").SessionManager,
     Render = require("nitro/render").Render;		
     
 require("./src/custom");
@@ -20,7 +20,7 @@ var appsRoot = "WEB-INF/src/apps",
     templatesRoot = "WEB-INF/src/templates";
 
 // The application.
-exports.app = ContentLength(MethodOverride(SessionManager(Path(Render(Errors(Wrap(Dispatch(appsRoot))), templatesRoot)), "sessionsecret")));
+exports.app = ContentLength(MethodOverride(CookieSessions(Path(Errors(Render(Wrap(Dispatch(appsRoot)), templatesRoot))), {secret:  "sessionsecret"})));
 
 // Debug version of the application.
 exports.debug = ShowExceptions(exports.app);
