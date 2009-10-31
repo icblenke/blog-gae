@@ -12,11 +12,11 @@ exports.GET = function(env) {
 	for (var i = 0; i < models.length; i++) db.remove(models[i].all().keys());
 	
 	var categories = [
-	    new Category("art", "Art"),
-	    new Category("business", "Business"),
-	    new Category("dogma", "Dogma"),
-	    new Category("life", "Life"),
-	    new Category("technology", "Technology")
+	    new Category({keyName: "art", label: "Art"}),
+	    new Category({keyName: "business", label: "Business"}),
+	    new Category({keyName: "dogma", label: "Dogma"}),
+	    new Category({keyName: "life", label: "Life"}),
+	    new Category({keyName: "technology", label: "Technology"})
 	];
 	db.put(categories);
 	

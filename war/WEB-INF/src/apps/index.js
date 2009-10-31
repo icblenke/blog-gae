@@ -1,8 +1,11 @@
-var Paginator = require("nitro/utils/paginator").Paginator,
-    encode = require("nitro/utils/atom").encode;
+var Request = require("nitro/request").Request;
+
+var encode = require("nitro/utils/atom").encode;
 
 var Article = require("content/article").Article,
     Category = require("content/category").Category;
+
+var paginate = require("paging").paginateByKey;
 
 exports.GET = function(env) {
     if ("/index.atom" == env["PATH_INFO"]) {
@@ -17,25 +20,23 @@ exports.GET = function(env) {
 		    updated: articles[0].created
 	    })]};
     } else {
-    	var pg = new Paginator(env, 5);
-    	var articles = pg.limitQuery(Article.all().order("-created")).fetch().map(function(a) {
-    		var category = Category.get(a.category);
-        	return {
-        		key: a.key().toString(),
-        		path: a.path(),
-        		title: a.title,
-        		content: a.content,
-        		created: a.created.format("mm/dd/yyyy"),
-        		categoryTerm: category.term,
-        		categoryLabel: category.label,
-        		commentCount: a.commentCount,
-        		tagString: a.tagString_linked()
-        	}
-        });
-
+        var params = new Request(env).params();
+        var page = paginate(Article.all().order("-created"), params.pb, 10);    	
+       
     	return {data: {
-            articles: articles,
-            paginator: pg.paginate(articles)
+            articles: page.items.map(function(a) {
+            	return {
+            		key: a.key(),
+            		path: a.path(),
+            		title: a.title,
+            		content: a.content,
+            		created: a.created,
+            		category: Category.get(a.category),
+            		commentCount: a.commentCount,
+            		tagsLinks: a.tagsLinks("/tags/*")
+            	}
+            }),
+            page: page.controls("?pb=")
         }};
     }
 }

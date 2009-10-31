@@ -6,7 +6,7 @@ var Request = require("nitro/request").Request,
 
 var Article = require("content/article").Article,
     Comment = require("content/comment").Comment,
-    markup = require("content/markup").markup;
+    markup = require("content/utils").brify;
 
 var Template = require("template").Template,
     template = new Template(system.fs.Path(module.path).resolve("../../templates/comments/comment.inc.html").read());

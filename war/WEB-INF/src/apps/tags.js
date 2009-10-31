@@ -19,7 +19,7 @@ exports.GET = function(env) {
             t = tags[i];
             size = (Number(t.count) / maxCount) * 5;
             if (size > maxSize) maxSize = size;
-            cloud.push('<a href="/tags/*' + t.name + '" style="font-size: ' + size + 'em">' + t.name + '</a>');
+            cloud.push('<a href="/tags/*' + t.label + '" style="font-size: ' + size + 'em">' + t.label + '</a>');
         }
         
         return {data: {

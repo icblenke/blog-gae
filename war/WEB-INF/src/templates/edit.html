@@ -13,12 +13,14 @@
 {.end scripts}
 
 {.block script}
+/*
 $(document).bind("ready", function() {
-    $("#tagString").autocomplete("/tags/autocomplete.txt", { 
+    $("#tagsString").autocomplete("/tags/autocomplete.txt", { 
         multiple: true, 
         autoFill: true 
     });
 });
+*/
 {.end script}
 
 {.block content}
@@ -38,16 +40,16 @@ $(document).bind("ready", function() {
                 <textarea name="content" class="content" style="height: 20em">{content}</textarea>
             </li>
             <li>
-                <label for="categoryKey">Category</label>
-                <select name="categoryKey">
+                <label for="category">Category</label>
+                <select name="category">
                     {.repeated section categories}
                     <option value="{key}">{label}</option>
                     {.end}
                 </select>
             </li>
             <li>
-                <label for="tagString">Tags</label>
-                <input type="text" id="tagString" name="tagString" value="{tagString}" style="width: 40em" />
+                <label for="tagsString">Tags</label>
+                <input type="text" id="tagsString" name="tagsString" value="{tagsString}" style="width: 40em" />
             </li>
         </ol>
     </fieldset>

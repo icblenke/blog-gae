@@ -12,6 +12,7 @@ var Dispatch = require("nitro/dispatch").Dispatch,
     Render = require("nitro/render").Render;		
     
 require("./src/custom");
+require("./src/formatters");
 require("./src/dateutils");
 
 var Wrap = require("./src/wrap").Wrap;

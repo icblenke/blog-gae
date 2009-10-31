@@ -1,6 +1,6 @@
 var md5 = require("md5").hash;
 
-var update = require("hash").Hash.update;
+var Hash = require("hash").Hash;
 
 /**
  * Generate the gravatar uri.
@@ -14,16 +14,20 @@ var gravatarUri = exports.uri = function(email, extra, prefix) {
 }
 
 /**
-* A gravatar, or globally recognized avatar, is quite simply an avatar 
-* image that follows you from weblog to weblog appearing beside your 
-* name when you comment on gravatar enabled sites. Avatars help 
-* identify your posts on web forums, so why not on weblogs?
-*
-* http://www.gravatar.com
-*/
+ * A gravatar, or globally recognized avatar, is quite simply an avatar 
+ * image that follows you from weblog to weblog appearing beside your 
+ * name when you comment on gravatar enabled sites. Avatars help 
+ * identify your posts on web forums, so why not on weblogs?
+ *
+ * http://www.gravatar.com
+ */
 var Gravatar = exports.Gravatar = function(base) {
-    update(base.prototype, Gravatar.prototype);
+    this.extend(base);
 };
+
+Gravatar.extend = function(base) {
+    Hash.update(base.prototype, Gravatar.prototype);
+}
 
 Gravatar.prototype.gravatarURI = function() {
     return gravatarUri(this.email);

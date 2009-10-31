@@ -1,8 +1,7 @@
 Blog GAE
 ========
 
-A simple Blog. This example demonstrates how to create real world applications
-using Nitro and AppEngine.
+A simple Blog. This example demonstrates how to create real world applications using Nitro and AppEngine.
 
 WARNING: this example is under construction!!
 

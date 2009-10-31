@@ -1,35 +1,24 @@
-var crc32 = require("crc32").hash;
-
 var db = require("google/appengine/ext/db");
 
-var Gravatar = require("../users/gravatar").Gravatar;
+var Gravatar = require("../gravatar").Gravatar;
 
 var VALID_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
 /**
  * An unclaimed comment.
  */
-var Comment = exports.Comment = function(parentOrKey, content) {
-    this.content = content;
-	this.created = new Date();
-	this.parentKey = db.resolveKey(parentOrKey);
-	this.__key__ = Comment.key(this);
-}
-
-Comment.model = new db.Model(Comment, "Comment", {
-	name: new db.StringProperty(),
-	email: new db.EmailProperty(),
-	uri: new db.StringProperty(),
-	content: new db.TextProperty(),
-	created: new db.DateProperty()
+var Comment = exports.Comment = db.Model("Comment", {
+	authorName: new db.StringProperty({required: true}),
+	authorEmail: new db.EmailProperty(),
+	authorUri: new db.StringProperty(),
+	content: new db.TextProperty({required: true}),
+	created: new db.DateProperty({autoNowAdd: true})
 });
 
-Comment.key = function(obj) {
-	return db.key(obj.parentKey, "Comment", "c" + crc32(utf8(obj.name + obj.created.getTime())));
-}
+Gravatar.extend(Comment);
 
 Comment.prototype.authorLink = function() {
-    return '<a href="' + this.uri + '" rel="nofollow">' + this.name + '</a>';
+    return '<a href="' + this.authorUri + '" rel="nofollow">' + this.authorName + '</a>';
 }
 
 Comment.validate = function(obj) {
@@ -45,5 +34,3 @@ Comment.validate = function(obj) {
 	
 	return errors;
 }
-
-Gravatar(Comment);

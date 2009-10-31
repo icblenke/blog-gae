@@ -34,20 +34,19 @@ exports.GET = function(env) {
                 	key: article.key().toString(),
             		title: article.title,
                 	content: article.content,
-                	created: article.created.format("mm/dd/yyyy"),
-                	categoryTerm: category.term,
-                	categoryLabel: category.label,
+                	created: article.created,
+                	category: category,
 	                comments: Comment.all().ancestor(article).fetch().map(function(c) {
 	                	return {
 	                	    key: c.key().toString(),
 		                	content: c.content,
-		                	created: c.created.format("dd/mm/yyyy HH:MM:ss"),
+		                	created: c.created,
 		                	gravatarURI: c.gravatarURI(),
 		                	authorLink: c.authorLink()
 	                	}
 	                }),
                 	commentCount: article.commentCount,
-                	tagString: article.tagString_linked()
+                	tagsLinks: article.tagsLinks("/tags/*")
                 }
             }
         }

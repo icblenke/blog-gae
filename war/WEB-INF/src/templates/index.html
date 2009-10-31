@@ -1,5 +1,9 @@
 {.extends "/layout/page.html"}
 
+{.block breadcrumbs}
+<b>Home</b>
+{.end breadcrumbs}
+
 {.block script}
 $(document).bind("ready", function() {
     $(".delete").bind("click", function(e) {

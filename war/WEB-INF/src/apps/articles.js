@@ -1,30 +1,21 @@
-var db = require("google/appengine/ext/db");
-
 var Request = require("nitro/request").Request,
     redirect = require("nitro/response").Response.redirect;
 
-var Article = require("content/article").Article,
-    Category = require("content/category").Category,
-    markup = require("content/markup").markup;
+var Article = require("content/article").Article;
+    
+var ModelForm = require("google/appengine/ext/db/forms").ModelForm,
+    ArticleForm = ModelForm(Article);
 
 exports.POST = function(env) {
     var params = new Request(env).params();
     
-    var article;
+    var article = params.key ? Article.get(params.key) : new Article();
     
-    if (params.key) { // Update an existing object.
-    	article = Article.get(params.key);
-    } else { // Insert a new object.
-        article = new Article(params.title);
-    }
-
-    article.title = params.title;
-    article.category = new db.Key(params.categoryKey);
-    article.content = markup(params.content);
+    var form = new ArticleForm(params, {instance: article});
     article.created = article.updated = new Date();
-    article.updateTags(params.tagString);
-    article.put();
-    
+    article.updateTags(params.tagsString);    
+    form.put();
+
     return redirect("/");
 }
 
