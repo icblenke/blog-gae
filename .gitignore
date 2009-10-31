@@ -2,5 +2,5 @@ js
 war/WEB-INF/packages
 war/WEB-INF/appengine-generated
 war/WEB-INF/classes/org
-war/WEB-INF/lib/appengine-api-1.0-sdk-1.2.5.jar
-war/WEB-INF/lib/appengine-api-labs-1.2.5.jar
+war/WEB-INF/lib/appengine-api-1.0-sdk-1.2.6.jar
+war/WEB-INF/lib/appengine-api-labs-1.2.6.jar
